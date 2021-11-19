@@ -1,24 +1,25 @@
 import pygame
 import os
-from app import Application
+from App import Application
+from Player import Player
+from Vec2 import Vec2
 
-GUY = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "guy.png")), (440 / 4, 360 / 4))
-
-guy_rect = pygame.Rect(100, 100, 440 / 4, 360 / 4)
+player = Player(Vec2(100, 100))
 
 
-def loop(input, window, app_status):
+def loop(input, window: pygame.Surface, app_status):
+    global player
     if input["a"]:
-        guy_rect.x -= 3
+        player.p.x -= 1
     if input["d"]:
-        guy_rect.x += 3
+        player.p.x += 3
     if input["w"]:
-        guy_rect.y -= 3
+        player.p.y -= 3
     if input["s"]:
-        guy_rect.y += 3
+        player.p.y += 3
 
     window.fill((255, 255, 0))
-    window.blit(GUY, guy_rect)
+    player.render(window)
 
 
 def main():
