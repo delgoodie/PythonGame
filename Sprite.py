@@ -2,6 +2,10 @@ import pygame
 from Vec2 import Vec2
 
 
+
+
+
+
 class Sprite:
     def __init__(self, path: str, dimension: Vec2, position=Vec2(0, 0), rotation=0, scale=Vec2(1, 1)):
         self.path = path
