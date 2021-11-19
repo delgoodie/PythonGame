@@ -1,0 +1,3 @@
+
+Will
+-create rotation for Srite class
