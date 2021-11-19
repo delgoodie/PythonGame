@@ -34,6 +34,11 @@ class Vec2:
     def tup(self):
         return (self.x, self.y)
 
+    @tup.setter
+    def tup(self, value):
+        self.x = value[0]
+        self.y = value[1]
+
     def __getitem__(self, key):
         if key == 0:
             return self.x
