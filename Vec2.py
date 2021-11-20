@@ -15,7 +15,7 @@ class Vec2:
 
     @t.setter
     def t(self, v):
-        length = self.length
+        length = self.r
         self.x = length * math.cos(v)
         self.y = length * math.sin(v)
 
