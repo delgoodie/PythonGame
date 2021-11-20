@@ -12,16 +12,27 @@ class Game:
         self.camera = Camera(Vec2(2, 0), 10)
 
     def handle_input(self, input):
-        direction = Vec2(0, 0)
+        dir = Vec2(0, 0)
         if input["a"]:
-            direction.x -= 1
+            dir.x -= 1
         if input["d"]:
-            direction.x += 1
+            dir.x += 1
         if input["w"]:
-            direction.y += 1
+            dir.y += 1
         if input["s"]:
-            direction.y -= 1
-        self.player.move(direction, 0, False, False, False, False)
+            dir.y -= 1
+
+        if dir.r > 1:
+            dir.r = 1
+
+        scroll = int(input["left"]) - int(input["right"])
+        action1 = input["up"]
+        action2 = input["down"]
+        boost = input["space"]
+        strafe = input["shift"]
+        pickup = input["e"]
+
+        self.player.move(dir, scroll, action1, action2, boost, strafe, pickup)
 
     def update(self):
         self.player.update()

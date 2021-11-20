@@ -11,7 +11,7 @@ class Player:
         self.dir = Vec2(1, 0)
         self.image = pygame.image.load(os.path.join("Assets", "player.png"))
 
-    def move(self, direction: Vec2, scroll: int, action1: bool, action2: bool, boost: bool, strafe: bool):
+    def move(self, direction: Vec2, scroll: int, action1: bool, action2: bool, boost: bool, strafe: bool, pickup: bool):
         self.vel = direction * 0.05
         if direction.r > 0 and not strafe:
             self.dir = direction

@@ -9,7 +9,7 @@ class Camera:
     def __init__(self, pos: Vec2, diagonal: float):
         self.pos = pos
         self.diagonal = diagonal
-        self.debug = True
+        self.debug = False
 
     def transform_length(self, length: float):
         screen_diagonal = math.hypot(*pygame.display.get_window_size())

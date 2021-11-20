@@ -13,6 +13,13 @@ class Input:
             "a": False,
             "s": False,
             "d": False,
+            "shift": False,
+            "space": False,
+            "left": False,
+            "right": False,
+            "up": False,
+            "down": False,
+            "e": False,
         }
         self.up = {
             "w": False,
@@ -58,6 +65,20 @@ class Input:
             self["s"] = True
         if keys_pressed[pygame.K_d]:
             self["d"] = True
+        if keys_pressed[pygame.K_LSHIFT]:
+            self["shift"] = True
+        if keys_pressed[pygame.K_SPACE]:
+            self["space"] = True
+        if keys_pressed[pygame.K_LEFT]:
+            self["left"] = True
+        if keys_pressed[pygame.K_RIGHT]:
+            self["right"] = True
+        if keys_pressed[pygame.K_UP]:
+            self["up"] = True
+        if keys_pressed[pygame.K_DOWN]:
+            self["down"] = True
+        if keys_pressed[pygame.K_e]:
+            self["e"] = True
 
     def clear(self):
         self["w"] = False
