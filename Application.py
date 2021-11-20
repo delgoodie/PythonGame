@@ -20,6 +20,7 @@ class Application:
     def _read_settings(self):
         with open(self._settings_path, newline="") as csvfile:
             reader = csv.reader(csvfile, delimiter=" ", quotechar="|")
+            print("Reading ", self._settings_path)
             for row in reader:
                 print(", ".join(row))
 
@@ -36,13 +37,11 @@ class Application:
         while self.app_status:
             clock.tick(self.fps)
 
-            self.window.fill((255, 255, 0))
-
             self.event_handler()
 
             # TODO: or pass in self and give game full access to Application?
             loop(self.input, self.window, self.app_status)
 
-            pygame.display.update()
+            pygame.display.flip()
 
         pygame.quit()
