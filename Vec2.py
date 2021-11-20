@@ -8,7 +8,10 @@ class Vec2:
 
     @property
     def t(self):
-        return math.atan(self.x / self.y)
+        if self.x == 0:
+            return math.pi / 2 if self.y > 0 else 3 * math.pi / 2
+        atan = math.atan(self.y / self.x)
+        return (atan + 2 * math.pi) % (2 * math.pi) if self.x > 0 else atan + math.pi
 
     @t.setter
     def t(self, v):
@@ -53,6 +56,12 @@ class Vec2:
             self.y = value
         else:
             raise Exception("error")
+
+    def __str__(self):
+        return f"<{self.x}, {self.y}>"
+
+    def copy(self):
+        return Vec2(self.x, self.y)
 
     # region Operator Overloads
 
@@ -99,6 +108,7 @@ class Vec2:
         elif type(other) is float or type(other) is int:
             self.x += other
             self.y += other
+        return self
 
     def __isub__(self, other):
         if type(other) is Vec2:
@@ -107,6 +117,7 @@ class Vec2:
         elif type(other) is float or type(other) is int:
             self.x -= other
             self.y -= other
+        return self
 
     def __imul__(self, other):
         if type(other) is Vec2:
@@ -115,6 +126,7 @@ class Vec2:
         elif type(other) is float or type(other) is int:
             self.x *= other
             self.y *= other
+        return self
 
     def __idiv__(self, other):
         if type(other) is Vec2:
@@ -123,6 +135,7 @@ class Vec2:
         elif type(other) is float or type(other) is int:
             self.x /= other
             self.y /= other
+        return self
 
     def __ipow__(self, other):
         if type(other) is Vec2:
@@ -131,6 +144,7 @@ class Vec2:
         elif type(other) is float or type(other) is int:
             self.x **= other
             self.y **= other
+        return self
 
     def __neg__(self):
         return Vec2(-self.x, -self.y)
