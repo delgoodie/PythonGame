@@ -1,0 +1,43 @@
+
+CRYSTAL
+
+    Orb
+        Damage
+            fireball - base orb
+            void - increased damage
+            cluster - many orbs
+            rapid fire - decreased cooldown
+            firewall - leaves fire trail, area denial
+            mega - big and slow, area denial
+            tracker - big slow ball tracks enemies
+            blood - takes 1 heart, shoot orb that deals 3 damage
+            vulernable - high damage but increases vulnerability for 3 sec after shot
+            electric shock - pathfinds enemies
+        
+        Enemy Effect
+            poison - deals damage over time
+            slow - slows down enemy
+            ice - freeze enemy
+            swap - one time use, if orb hits enemy, steals their crystal
+
+        Player Effect
+            teleport - teleport to where orb hits
+
+
+    Internal
+        Health
+            elixer gives extra heart
+            heal
+            invincibility
+            shield
+
+        Vision
+            night vision - see darkened areas
+            footstep vision - see past footsteps of players
+            increased vision - camera zooms out
+            invisible
+
+
+        Movement
+            ghost - transparent, move through walls, vulernable but cant be hit my most attacks
+            super speed

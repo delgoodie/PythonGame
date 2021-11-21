@@ -42,6 +42,10 @@ class Vec2:
         self.x = value[0]
         self.y = value[1]
 
+    def __iter__(self):
+        yield self.x
+        yield self.y
+
     def __getitem__(self, key):
         if key == 0:
             return self.x

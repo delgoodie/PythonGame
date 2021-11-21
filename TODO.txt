@@ -1,2 +1,8 @@
 
-Will
+3 inventory slots, 1 wand slot
+
+crystal goes in wand
+
+craft new crystals with ingredients
+
+start with base crystal - fireball

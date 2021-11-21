@@ -1,0 +1,34 @@
+INGREDIENTS
+
+    Plant
+        berry
+        herb
+        mushroom
+        lavender
+        sage
+        hemlock
+
+    
+    Animal
+        frog
+        bone
+        dragon tooth
+        rabbit's foot
+        spider
+        hummingbird
+    
+    Shard
+        ice
+        void
+        light
+        fire
+        dark
+        blood
+
+
+
+    Stone
+        lapis
+        obsidian
+        emerald
+        lode stone

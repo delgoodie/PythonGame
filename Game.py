@@ -3,6 +3,7 @@ from Application import Application
 from Camera import Camera
 from Player import Player
 from Vec2 import Vec2
+from World import World
 
 
 class Game:
@@ -10,6 +11,7 @@ class Game:
         self.player = Player(Vec2(0, 0))
         self.map = 0
         self.camera = Camera(Vec2(2, 0), 10)
+        self.world = World("path")
 
     def handle_input(self, input):
         dir = Vec2(0, 0)
@@ -34,12 +36,13 @@ class Game:
 
         self.player.move(dir, scroll, action1, action2, boost, strafe, pickup)
 
-    def update(self):
-        self.player.update()
+    def update(self, timestep: float):
+        self.camera.pos = self.player.pos.copy()
+        self.player.update(timestep)
 
     def render(self, window: pygame.Surface):
         sprites = []
-
+        self.world.render(sprites)
         self.player.render(sprites)
         # self.map.render(sprites)
 
@@ -51,7 +54,7 @@ class Game:
     def loop(self, app: Application):
         self.handle_input(app.input)
 
-        self.update()
+        self.update(app.timestep)
 
         # self.camera.pos.t += app.timestep
 

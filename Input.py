@@ -81,21 +81,11 @@ class Input:
             self["e"] = True
 
     def clear(self):
-        self["w"] = False
-        self["a"] = False
-        self["s"] = False
-        self["d"] = False
+        for key in self._pressed:
+            self._pressed[key] = False
 
-        self.up = {
-            "w": False,
-            "a": False,
-            "s": False,
-            "d": False,
-        }
+        for key in self.up:
+            self.up[key] = False
 
-        self.down = {
-            "w": False,
-            "a": False,
-            "s": False,
-            "d": False,
-        }
+        for key in self.down:
+            self.down[key] = False
