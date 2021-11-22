@@ -1,8 +1,17 @@
 
-3 inventory slots, 1 wand slot
 
-crystal goes in wand
+satchel
 
-craft new crystals with ingredients
+wand
 
-start with base crystal - fireball
+crafting
+
+shooting
+
+player health
+
+Assets:
+wand
+base crystal
+fireball
+health bars

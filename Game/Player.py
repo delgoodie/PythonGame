@@ -1,6 +1,7 @@
 import math
 import pygame
 from Game.Components.Collider import Collider
+from Game.Objects.Satchel import Satchel
 from Game.Physics import Physics
 from Util.Vec2 import Vec2
 from Game.Components.Sprite import Sprite
@@ -20,7 +21,7 @@ class Player:
 
         self.sprite = Sprite(pygame.image.load(os.path.join("Assets", "player.png")), self.pos, 0, Vec2.one(), 2)
 
-        self.items = [None, None, None, None]
+        self.items = [None, None, None, Satchel(self.game)]
 
         self.boost_cooldown = 0
         self.boost_frames = 3
@@ -33,23 +34,36 @@ class Player:
 
         self.primary_down = False
 
-    def move(self, move: Vec2, dir: Vec2, scroll: int, primary: bool, secondary: bool, boost: bool):
+    def try_pickup_item(self):
+        cols = self.game.physics.find_cols(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
+        if len(cols) > 0:
+            self.game.remove_object(cols[0].parent)
+            return cols[0].parent
+        return None
 
+    def move(self, move: Vec2, dir: Vec2, scroll: int, primary: bool, secondary: bool, boost: bool):
         self.primary_down = False
         if primary:
             if self.item_index == 0:
                 pass  # shoot
+            elif self.item_index == 3:  # satchel pickup
+                if self.items[self.item_index].can_add_item():
+                    item = self.try_pickup_item()
+                    if not item is None:
+                        self.items[self.item_index].add_item(item)
             else:
                 if self.items[self.item_index] is None:
                     self.primary_down = True
-                    cols = self.game.physics.find_cols(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
-                    if len(cols) > 0:
-                        self.items[self.item_index] = cols[0].parent
-                        self.game.remove_object(cols[0].parent)
+                    self.items[self.item_index] = self.try_pickup_item()
 
         if secondary:
             if self.item_index == 0:
                 pass
+            elif self.item_index == 3:
+                if self.items[self.item_index].can_remove_item():
+                    item = self.items[self.item_index].remove_item()
+                    item.pos.set(self.pos + self.dir * 0.5)
+                    self.game.add_object(item)
             else:
                 if self.items[self.item_index] is None:
                     pass
@@ -111,7 +125,7 @@ class Player:
             (width - length * 0.75, height - length * 0.75),
             (width - length * 2, height - length * 0.75),
             (width - length * 3, height - length * 0.75),
-            (width - length * 4, height - length * 0.75),
+            (width - length * 4.25, height - length * 0.75),
         ]
         item_slot_image = pygame.transform.scale(self.item_image, (length, length))
         active_item_slot_image = pygame.transform.scale(self.active_item_image, (length, length))
