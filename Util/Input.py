@@ -19,19 +19,39 @@ class Input:
             "right": False,
             "up": False,
             "down": False,
+            "q": False,
             "e": False,
+            "f": False,
         }
         self.up = {
             "w": False,
             "a": False,
             "s": False,
             "d": False,
+            "shift": False,
+            "space": False,
+            "left": False,
+            "right": False,
+            "up": False,
+            "down": False,
+            "q": False,
+            "e": False,
+            "f": False,
         }
         self.down = {
             "w": False,
             "a": False,
             "s": False,
             "d": False,
+            "shift": False,
+            "space": False,
+            "left": False,
+            "right": False,
+            "up": False,
+            "down": False,
+            "q": False,
+            "e": False,
+            "f": False,
         }
 
     def __getitem__(self, key: str):
@@ -77,8 +97,12 @@ class Input:
             self["up"] = True
         if keys_pressed[pygame.K_DOWN]:
             self["down"] = True
+        if keys_pressed[pygame.K_q]:
+            self["q"] = True
         if keys_pressed[pygame.K_e]:
             self["e"] = True
+        if keys_pressed[pygame.K_f]:
+            self["f"] = True
 
     def clear(self):
         for key in self._pressed:

@@ -1,9 +1,9 @@
 import pygame
 import os
 from Application import Application
-from Player import Player
-from Vec2 import Vec2
-from Game import Game
+from Game.Player import Player
+from Util.Vec2 import Vec2
+from Game.Game import Game
 
 
 def main():

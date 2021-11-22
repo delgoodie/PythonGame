@@ -1,8 +1,7 @@
 import math
 import pygame
-from pygame import transform
-from Sprite import Sprite
-from Vec2 import Vec2
+from Game.Components.Sprite import Sprite
+from Util.Vec2 import Vec2
 
 
 class Camera:
@@ -42,6 +41,10 @@ class Camera:
         return image, rect
 
     def draw(self, window: pygame.Surface, sprites: list[Sprite]):
+        def sort_func(sprite: Sprite):
+            return sprite.layer
+
+        sprites.sort(key=sort_func, reverse=True)
         images = [self.transform_image(sprite) for sprite in sprites]
         window.blits(images)
 

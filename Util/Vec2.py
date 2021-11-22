@@ -2,9 +2,17 @@ import math
 
 
 class Vec2:
+
+    g = 4
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
+    def copy(self):
+        return Vec2(self.x, self.y)
+
+    # region getters & setters
 
     @property
     def t(self):
@@ -33,6 +41,21 @@ class Vec2:
     def mag(self):
         return math.hypot(self.x, self.y)
 
+    def normalized(self):
+        length = self.r
+        if length > 0:
+            return Vec2(self.x / length, self.y / length)
+        else:
+            return Vec2.zero()
+
+    def set(self, a, b=0):
+        if type(a) is Vec2:
+            self.x = a.x
+            self.y = a.y
+        elif type(a) in [int, float] and type(b) in [int, float]:
+            self.x = a
+            self.y = b
+
     @property
     def tup(self):
         return (self.x, self.y)
@@ -41,6 +64,32 @@ class Vec2:
     def tup(self, value):
         self.x = value[0]
         self.y = value[1]
+
+    # endregion
+
+    # region static vectors
+
+    def zero():
+        return Vec2(0, 0)
+
+    def one():
+        return Vec2(1, 1)
+
+    def up():
+        return Vec2(0, 1)
+
+    def down():
+        return Vec2(0, -1)
+
+    def left():
+        return Vec2(-1, 0)
+
+    def right():
+        return Vec2(1, 0)
+
+    # endregion
+
+    # region python functions
 
     def __iter__(self):
         yield self.x
@@ -64,10 +113,12 @@ class Vec2:
     def __str__(self):
         return f"<{self.x}, {self.y}>"
 
-    def copy(self):
-        return Vec2(self.x, self.y)
+    def __bool__(self):
+        return self.x or self.y
 
-    # region Operator Overloads
+    # endregion
+
+    # region operator overloads
 
     def __add__(self, other):
         if type(other) is Vec2:
