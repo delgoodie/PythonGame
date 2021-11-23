@@ -30,6 +30,10 @@ class Physics:
             or Physics.point_in_collider(rect1, rect2.tl)
             or Physics.point_in_collider(rect1, rect2.br)
             or Physics.point_in_collider(rect1, rect2.tr)
+            or Physics.point_in_collider(rect2, rect1.bl)
+            or Physics.point_in_collider(rect2, rect1.tl)
+            or Physics.point_in_collider(rect2, rect1.br)
+            or Physics.point_in_collider(rect2, rect1.tr)
         )
 
     def circle_circle(circ1: Collider, circ2: Collider):

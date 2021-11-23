@@ -13,6 +13,7 @@ class Game:
     def __init__(self):
         self.objects = []
         self.physics = Physics([])
+        self.debug = 0
 
         self.player = Player(Vec2(1, 1), self)
         self.add_object(self.player)

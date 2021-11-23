@@ -12,7 +12,7 @@ class Satchel:
         self.game = game
         self.items = [None, None, None, None, None]
         self.item_index = -1
-        self.item_sprite = Sprite(self.image, Vec2(0, 0), 0, Vec2(0.35, 0.35), 2)
+        self.hand_sprite = Sprite(self.image, Vec2(0, 0), 0, Vec2(0.35, 0.35), 2)
 
     def can_add_item(self):
         return self.item_index < 4
@@ -35,7 +35,15 @@ class Satchel:
     def update(self, timestep: float):
         pass
 
-    def item_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
-        self.item_sprite.pos = pos
-        self.item_sprite.angle = angle + 3 * math.pi / 4
-        sprites.append(self.item_sprite)
+    def hand_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
+        self.hand_sprite.pos = pos
+        self.hand_sprite.angle = angle + 3 * math.pi / 4
+        sprites.append(self.hand_sprite)
+
+    def item_render(self, pos: Vec2, window: pygame.Surface):
+        width = window.get_width()
+        length = 3 * width / (13 * 4)
+
+        item_image = pygame.transform.scale(self.image, (length, length))
+
+        window.blit(item_image, item_image.get_rect(center=pos.tup))

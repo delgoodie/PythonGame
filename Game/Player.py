@@ -164,39 +164,40 @@ class Player:
 
         if self.item_index != 3:  # prioritize satchel on left hip
             items.pop(2)
-            self.satchel.item_render(*positions[2], sprites)
+            self.satchel.hand_render(*positions[2], sprites)
             positions.pop(2)
 
         if self.item_index == 0:  # special case for wand + crystal render
             sprites.append(Sprite(self.wand_image, self.wand_pos, self.dir.right().t + math.pi / 6, Vec2(0.5, 0.5), 2))
             if not self.cur_crystal is None:
-                self.cur_crystal.item_render(self.crystal_pos, self.dir.t, sprites)
+                self.cur_crystal.hand_render(self.crystal_pos, self.dir.t, sprites)
         else:  # otherwise front render
             if not self.cur_item is None:
-                self.cur_item.item_render(self.front_pos, self.dir.t, sprites)
+                self.cur_item.hand_render(self.front_pos, self.dir.t, sprites)
 
         for item in items:  # remaining non-current, non-satchel items
             if not item is None:
-                item.item_render(*positions[0], sprites)
+                item.hand_render(*positions[0], sprites)
                 positions.pop(0)
-        # sprites.append(self.collider.sprite)
+
+        if self.game.debug > 2:
+            sprites.append(self.collider.sprite)
 
     def hud_render(self, window: pygame.Surface):
         width, height = window.get_size()
         length = width / 13
         positions = [
-            (width - length * 0.75, height - length * 0.75),
-            (width - length * 2, height - length * 0.75),
-            (width - length * 3, height - length * 0.75),
-            (width - length * 4.25, height - length * 0.75),
+            Vec2(width - length * 0.75, height - length * 0.75),
+            Vec2(width - length * 2, height - length * 0.75),
+            Vec2(width - length * 3, height - length * 0.75),
+            Vec2(width - length * 4.25, height - length * 0.75),
         ]
         item_slot_image = pygame.transform.scale(self.item_image, (length, length))
         active_item_slot_image = pygame.transform.scale(self.active_item_image, (length, length))
 
         for i in range(len(positions)):
             frame = active_item_slot_image if i == self.item_index else item_slot_image
-            window.blit(frame, frame.get_rect(center=positions[i]))
+            window.blit(frame, frame.get_rect(center=positions[i].tup))
 
             if not self.items[i] is None:
-                item = pygame.transform.scale(self.items[i].image, (length * 0.75, length * 0.75))
-                window.blit(item, item.get_rect(center=positions[i]))
+                self.items[i].item_render(positions[i], window)
