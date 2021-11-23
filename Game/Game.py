@@ -18,6 +18,7 @@ class Game:
         self.add_object(self.player)
 
         self.add_object(Berry(Vec2(3, 1), self))
+        self.add_object(Berry(Vec2(4, 1), self))
 
         self.camera = Camera(Vec2(2, 0), 10)
         self.map = Map("path", self)

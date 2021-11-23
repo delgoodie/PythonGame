@@ -32,3 +32,16 @@ INGREDIENTS
         obsidian
         emerald
         lode stone
+
+
+
+fire
+ice
+blood
+nature
+void
+storm
+
+
+
+void has laser

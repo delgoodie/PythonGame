@@ -1,3 +1,4 @@
+import math
 import os
 import pygame
 from Game.Components.Collider import Collider
@@ -11,6 +12,7 @@ class Satchel:
         self.game = game
         self.items = [None, None, None, None, None]
         self.item_index = -1
+        self.item_sprite = Sprite(self.image, Vec2(0, 0), 0, Vec2(0.35, 0.35), 2)
 
     def can_add_item(self):
         return self.item_index < 4
@@ -32,3 +34,8 @@ class Satchel:
 
     def update(self, timestep: float):
         pass
+
+    def item_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
+        self.item_sprite.pos = pos
+        self.item_sprite.angle = angle + 3 * math.pi / 4
+        sprites.append(self.item_sprite)

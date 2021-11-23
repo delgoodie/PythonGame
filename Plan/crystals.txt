@@ -25,6 +25,9 @@ CRYSTAL
 
 
     Internal
+        Reflection
+            reflect - turns around enemy orb based on player direction
+
         Health
             elixer gives extra heart
             heal
@@ -33,7 +36,6 @@ CRYSTAL
 
         Vision
             night vision - see darkened areas
-            footstep vision - see past footsteps of players
             increased vision - camera zooms out
             invisible
 
@@ -41,3 +43,12 @@ CRYSTAL
         Movement
             ghost - transparent, move through walls, vulernable but cant be hit my most attacks
             super speed
+
+            blood hound - become hound, limited fov, meelee damage fast movement
+
+
+void
+    night vision
+    ghost
+    teleport
+    blinding

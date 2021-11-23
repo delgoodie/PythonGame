@@ -1,10 +1,12 @@
 import math
 import pygame
 from Game.Components.Collider import Collider
+from Game.Components.Cooldown import Cooldown
 from Game.Objects.Satchel import Satchel
 from Game.Physics import Physics
 from Util.Vec2 import Vec2
 from Game.Components.Sprite import Sprite
+from Game.Objects.FireCrystal import FireCrystal
 import os
 
 
@@ -21,18 +23,65 @@ class Player:
 
         self.sprite = Sprite(pygame.image.load(os.path.join("Assets", "player.png")), self.pos, 0, Vec2.one(), 2)
 
-        self.items = [None, None, None, Satchel(self.game)]
-
-        self.boost_cooldown = 0
-        self.boost_frames = 3
-
+        self.items = [FireCrystal(Vec2(0, 0), self.game), None, None, Satchel(self.game)]
         self.item_index = 0
-        self.item_switch_cooldown = 0
+
+        self.boost_cooldown = Cooldown(3)
+        self.scroll_cooldown = Cooldown(0.2)
+        self.primary_cooldown = Cooldown(0.2)
+        self.secondary_cooldown = Cooldown(0.2)
 
         self.item_image = pygame.image.load(os.path.join("Assets", "item_slot.png"))
         self.active_item_image = pygame.image.load(os.path.join("Assets", "active_item_slot.png"))
+        self.wand_image = pygame.image.load(os.path.join("Assets", "wand.png"))
 
-        self.primary_down = False
+    # region getters
+
+    @property
+    def cur_item(self):
+        return self.items[self.item_index]
+
+    @cur_item.setter
+    def cur_item(self, item):
+        self.items[self.item_index] = item
+
+    @property
+    def satchel(self) -> Satchel:
+        return self.items[3]
+
+    @property
+    def cur_crystal(self):
+        return self.items[0]
+
+    @property
+    def wand_pos(self):
+        return self.pos + self.dir * 0.4 + self.dir.right() * 0.3
+
+    @property
+    def crystal_pos(self):
+        return self.pos + self.dir * 0.6 + self.dir.right() * 0.1
+
+    @property
+    def shoot_pos(self):
+        return self.pos + self.dir * 0.6
+
+    @property
+    def front_pos(self):
+        return self.pos + self.dir * 0.45
+
+    @property
+    def right_hip_pos_1(self):
+        return self.pos + self.dir * 0.15 + self.dir.right() * 0.3
+
+    @property
+    def right_hip_pos_2(self):
+        return self.pos - self.dir * 0.15 + self.dir.right() * 0.3
+
+    @property
+    def left_hip_pos(self):
+        return self.pos + self.dir.left() * 0.3
+
+    # endregion
 
     def try_pickup_item(self):
         cols = self.game.physics.find_cols(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
@@ -42,54 +91,46 @@ class Player:
         return None
 
     def move(self, move: Vec2, dir: Vec2, scroll: int, primary: bool, secondary: bool, boost: bool):
-        self.primary_down = False
-        if primary:
+        if primary and self.primary_cooldown.ready():
             if self.item_index == 0:
-                pass  # shoot
+                if not self.cur_crystal is None:
+                    self.cur_crystal.invoke(self, self.shoot_pos, self.dir)
             elif self.item_index == 3:  # satchel pickup
-                if self.items[self.item_index].can_add_item():
+                if self.satchel.can_add_item():
                     item = self.try_pickup_item()
                     if not item is None:
-                        self.items[self.item_index].add_item(item)
+                        self.satchel.add_item(item)
             else:
-                if self.items[self.item_index] is None:
+                if self.cur_item is None:
                     self.primary_down = True
-                    self.items[self.item_index] = self.try_pickup_item()
+                    self.cur_item = self.try_pickup_item()
 
-        if secondary:
+        if secondary and self.secondary_cooldown.ready():
             if self.item_index == 0:
                 pass
             elif self.item_index == 3:
-                if self.items[self.item_index].can_remove_item():
-                    item = self.items[self.item_index].remove_item()
+                if self.cur_item.can_remove_item():
+                    item = self.cur_item.remove_item()
                     item.pos.set(self.pos + self.dir * 0.5)
                     self.game.add_object(item)
             else:
-                if self.items[self.item_index] is None:
+                if self.cur_item is None:
                     pass
                 else:
-                    self.items[self.item_index].pos.set(self.pos + self.dir * 0.5)
-                    self.game.add_object(self.items[self.item_index])
-                    self.items[self.item_index] = None
+                    self.cur_item.pos.set(self.pos + self.dir * 0.5)
+                    self.game.add_object(self.cur_item)
+                    self.cur_item = None
 
-        if scroll and self.item_switch_cooldown == 0:
+        if scroll and self.scroll_cooldown.ready():
             self.item_index = (self.item_index + scroll + 4) % 4
-            self.item_switch_cooldown = 10
-        else:
-            self.item_switch_cooldown = max(self.item_switch_cooldown - 1, 0)
 
-        if boost:
-            if self.boost_cooldown <= 0:
-                self.boost_cooldown = 5
-                self.boost_frames = 4
-            if self.boost_frames > 0:
-                self.acc = self.input_vel.normalized() * 100 if self.input_vel.r > 0 else self.dir.normalized() * 70
-                self.boost_frames -= 1
+        if boost and (self.boost_cooldown.ready() or self.boost_cooldown.within(0.075)):
+            self.acc = self.input_vel.normalized() * 100 if self.input_vel.r > 0 else self.dir.normalized() * 70
 
         self.input_vel = move * (self.input_vel.r + 0.2)
         if dir.r > 0:
             self.dir = dir
-        elif self.input_vel.r > 0:
+        elif self.input_vel.r > 0:  # TODO: should this be removed??
             self.dir = self.input_vel.normalized()
 
     def update(self, timestep: float):
@@ -100,9 +141,6 @@ class Player:
         self.vel += self.acc * timestep
         self.acc = 0
 
-        if self.boost_cooldown > 0:
-            self.boost_cooldown -= timestep
-
         self.game.physics.move(self.collider, (self.vel + self.input_vel) * timestep, [1])
 
         self.vel -= self.vel * 0.1
@@ -111,11 +149,36 @@ class Player:
 
     def render(self, sprites: list[Sprite]):
         sprites.append(self.sprite)
-        if self.primary_down:
-            sprites.append(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4).sprite)
 
-        if self.item_index != 0 and not self.items[self.item_index] is None:
-            sprites.append(Sprite(self.items[self.item_index].image, self.pos + self.dir * 0.5, self.dir.t + 3 * math.pi / 2, Vec2(0.4, 0.4), 2))
+        items = self.items.copy()
+        items.pop(self.item_index)
+
+        # cur_time = float(pygame.time.get_ticks()) / 1000
+        # positions = [cur_time, cur_time + 2 * math.pi / 3, cur_time + 4 * math.pi / 3]
+        # positions = [(self.pos + Vec2(0.5, 0).rotate(t), t) for t in positions]
+        positions = [
+            (self.right_hip_pos_1, self.dir.right().t),
+            (self.right_hip_pos_2, self.dir.right().t),
+            (self.left_hip_pos, self.dir.left().t),
+        ]
+
+        if self.item_index != 3:  # prioritize satchel on left hip
+            items.pop(2)
+            self.satchel.item_render(*positions[2], sprites)
+            positions.pop(2)
+
+        if self.item_index == 0:  # special case for wand + crystal render
+            sprites.append(Sprite(self.wand_image, self.wand_pos, self.dir.right().t + math.pi / 6, Vec2(0.5, 0.5), 2))
+            if not self.cur_crystal is None:
+                self.cur_crystal.item_render(self.crystal_pos, self.dir.t, sprites)
+        else:  # otherwise front render
+            if not self.cur_item is None:
+                self.cur_item.item_render(self.front_pos, self.dir.t, sprites)
+
+        for item in items:  # remaining non-current, non-satchel items
+            if not item is None:
+                item.item_render(*positions[0], sprites)
+                positions.pop(0)
         # sprites.append(self.collider.sprite)
 
     def hud_render(self, window: pygame.Surface):

@@ -87,6 +87,24 @@ class Vec2:
     def right():
         return Vec2(1, 0)
 
+    def right(self):
+        vec = Vec2(self.x, self.y)
+        vec.t += 3 * math.pi / 2
+        return vec
+
+    def left(self):
+        vec = Vec2(self.x, self.y)
+        vec.t += math.pi / 2
+        return vec
+
+    def back(self):
+        return Vec2(-self.x, -self.y)
+
+    def rotate(self, rot: float):
+        vec = self.copy()
+        vec.t += rot
+        return vec
+
     # endregion
 
     # region python functions
