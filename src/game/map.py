@@ -1,8 +1,8 @@
 import pygame
-from Game.Components.Collider import Collider
-from Util.Vec2 import Vec2
+from game.components.collider import Collider
+from util.vec2 import Vec2
 import os
-from Game.Components.Sprite import Sprite
+from game.components.sprite import Sprite
 
 
 class Map:

@@ -1,6 +1,5 @@
 import pygame
-import os
-from Util.Input import Input
+from util.input import Input
 import csv
 
 

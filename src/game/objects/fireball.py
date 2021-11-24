@@ -3,9 +3,9 @@ import os
 import pygame
 from Game.Components.Animation import Animation
 from Game.Components.Animator import Animator
-from Game.Components.Collider import Collider
-from Util.Vec2 import Vec2
-from Game.Components.Sprite import Sprite
+from game.components.collider import Collider
+from util.vec2 import Vec2
+from game.components.sprite import Sprite
 
 
 class Fireball:

@@ -2,11 +2,11 @@ import math
 import os
 import pygame
 from Game.Components.ButtonHandler import ButtonHandler
-from Game.Components.Collider import Collider
+from game.components.collider import Collider
 from Game.Objects.Berry import Berry
 from Game.Objects.Fireball import Fireball
-from Util.Vec2 import Vec2
-from Game.Components.Sprite import Sprite
+from util.vec2 import Vec2
+from game.components.sprite import Sprite
 
 
 class FireCrystal:

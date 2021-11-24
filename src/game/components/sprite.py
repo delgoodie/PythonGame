@@ -1,5 +1,5 @@
 import pygame
-from Util.Vec2 import Vec2
+from util.vec2 import Vec2
 
 
 class Sprite:

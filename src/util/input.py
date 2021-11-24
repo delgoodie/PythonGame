@@ -25,7 +25,6 @@ INIT_KEY_DICT = {
 
 
 class Input:
-    # TODO: Write docs for Input class
     """
     Doc for Input
     """

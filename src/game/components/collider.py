@@ -1,5 +1,5 @@
-from Game.Components.Sprite import Sprite
-from Util.Vec2 import Vec2
+from game.components.sprite import Sprite
+from util.vec2 import Vec2
 import pygame
 import os
 

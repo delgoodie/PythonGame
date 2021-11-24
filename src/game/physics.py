@@ -1,5 +1,5 @@
-from Game.Components.Collider import Collider
-from Util.Vec2 import Vec2
+from game.components.collider import Collider
+from util.vec2 import Vec2
 
 
 class Physics:
@@ -52,7 +52,6 @@ class Physics:
                 return Physics.circle_circle(col_a, col_b)
 
     def move(self, col: Collider, disp: Vec2, layers: list[int]):
-
         origin = col.pos.copy()
 
         col.pos += disp * Vec2(1, 0)

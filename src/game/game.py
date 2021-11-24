@@ -1,12 +1,12 @@
 import pygame
-from Application import Application
-from Game.Objects.Berry import Berry
-from Game.Camera import Camera
-from Game.Components.Collider import Collider
-from Game.Physics import Physics
-from Game.Player import Player
-from Util.Vec2 import Vec2
-from Game.Map import Map
+from application import Application
+from game.objects.berry import Berry
+from game.camera import Camera
+from game.components.collider import Collider
+from game.physics import Physics
+from game.objects.player import Player
+from util.vec2 import Vec2
+from game.map import Map
 
 
 class Game:

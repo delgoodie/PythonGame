@@ -1,17 +1,29 @@
-
-
-satchel
-
-wand
-
-crafting
-
-shooting
-
 player health
+add sqrMag to vector class for optimization
 
-Assets:
-wand
-base crystal
-fireball
-health bars
+disable mouse pointer
+
+rename render functions to draw and get_sprite or smthng of that nature
+to optimze: dont rotate image every frame, just cache rotated images <- encapsulate in Sprite ??
+
+physics:
+move player fraction if can't move the full disp instead of just not moving at all!
+implement real physics for moving rigid bodies??
+should fireball interact w/ berry??
+
+make crafting require you to hold [F] and if you just press F you drop crystal??
+
+make player acceleration thing and do physics right
+
+write docs and comments for all functions and classes
+
+combine some classes into single functions (animator)
+
+
+update and diagram out layers (for physics engine)
+
+make shadow casting
+
+make map
+
+prefab rooms with list of box colliders

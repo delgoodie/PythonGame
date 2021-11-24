@@ -3,11 +3,11 @@ import pygame
 from Game.Components.Animation import Animation
 from Game.Components.Animator import Animator
 from Game.Components.ButtonHandler import ButtonHandler
-from Game.Components.Collider import Collider
+from game.components.collider import Collider
 from Game.Objects.Satchel import Satchel
 from Game.Physics import Physics
-from Util.Vec2 import Vec2
-from Game.Components.Sprite import Sprite
+from util.vec2 import Vec2
+from game.components.sprite import Sprite
 from Game.Objects.FireCrystal import FireCrystal
 import os
 
@@ -132,8 +132,6 @@ class Player:
 
         # Secondary
         if self.secondary_handler.value:
-
-            # TODO: make crafting require you to hold [F] and if you just press F you drop crystal??
             # Crafting
             if self.item_index == 0:
                 cols = self.game.physics.find_cols(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
@@ -182,7 +180,6 @@ class Player:
         if dist == 0:
             self.vel = Vec2(0, 0)
 
-        # TODO: make this a acceleration thing and do physics right
         self.vel -= self.vel * 0.1
 
         self.sprite.angle = self.dir.t
