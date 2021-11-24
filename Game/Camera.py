@@ -9,6 +9,8 @@ class Camera:
         self.pos = pos
         self.diagonal = diagonal
         self.debug = False
+        # TODO: enable this at some point
+        # pygame.mouse.set_visible(False)
 
     def transform_length(self, length: float):
         screen_diagonal = math.hypot(*pygame.display.get_window_size())
@@ -22,6 +24,8 @@ class Camera:
         pixel_point = Vec2(self.transform_length(relative_point.x), self.transform_length(relative_point.y))
 
         pixel_point = pixel_point * Vec2(1, -1) + screen_size / 2  # account for (0, 0) in top right, not center
+
+        pixel_point = Vec2(math.floor(pixel_point.x), math.floor(pixel_point.y))
 
         return pixel_point
 

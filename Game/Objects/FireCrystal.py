@@ -1,7 +1,8 @@
+import math
 import os
 import pygame
+from Game.Components.ButtonHandler import ButtonHandler
 from Game.Components.Collider import Collider
-from Game.Components.Cooldown import Cooldown
 from Game.Objects.Fireball import Fireball
 from Util.Vec2 import Vec2
 from Game.Components.Sprite import Sprite
@@ -12,15 +13,16 @@ class FireCrystal:
         self.pos = pos
         self.image = pygame.image.load(os.path.join("Assets", "fire_crystal.png"))
         self.sprite = Sprite(self.image, self.pos, 0, Vec2(0.4, 0.4), 5)
-        self.hand_sprite = Sprite(self.image, self.pos, 0, Vec2(0.3, 0.3), 2)
+        self.hand_sprite = Sprite(self.image, self.pos, 0, Vec2(0.4, 0.4), 2)
 
         self.game = game
         self.collider = Collider("rect", self.pos, Vec2(0.4, 0.4), 4, self)
 
-        self.invoke_cooldown = Cooldown(0.3)
+        self.invoke_handler = ButtonHandler(300)
 
-    def invoke(self, player, pos, dir):
-        if self.invoke_cooldown.ready():
+    def invoke(self, value, player, pos: Vec2, dir: Vec2):
+        self.invoke_handler.update(value)
+        if self.invoke_handler.value:
             self.game.add_object(Fireball(pos, dir, player, self.game))
 
     def update(self, timestep: float):
@@ -33,7 +35,7 @@ class FireCrystal:
 
     def hand_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
         self.hand_sprite.pos = pos
-        self.hand_sprite.angle = angle
+        self.hand_sprite.angle = float(pygame.time.get_ticks()) / 1000
         sprites.append(self.hand_sprite)
 
     def item_render(self, pos: Vec2, window: pygame.Surface):

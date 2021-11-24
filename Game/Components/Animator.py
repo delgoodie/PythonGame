@@ -16,7 +16,6 @@ class Animator:
     def get_image(self):
         while True:
             cur_dur = pygame.time.get_ticks() - self.start_time
-            print(self.state_name, cur_dur, self.state.duration)
             if cur_dur < self.state.duration:
                 return self.state.get_image(cur_dur)
             else:
@@ -24,9 +23,8 @@ class Animator:
                 self.state_name = self.state.next
 
     def try_change_state(self, new_state_name: str) -> bool:
-        if self.state.cancelable and new_state_name in self.animations:
-            if new_state_name != self.state_name:
-                self.state_name = new_state_name
-                self.start_time = pygame.time.get_ticks()
+        if self.state.cancelable and new_state_name in self.animations and new_state_name != self.state_name:
+            self.state_name = new_state_name
+            self.start_time = pygame.time.get_ticks()
             return True
         return False

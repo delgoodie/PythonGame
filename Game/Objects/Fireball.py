@@ -28,13 +28,14 @@ class Fireball:
         )
 
         self.game = game
-        self.collider = Collider("rect", self.pos, Vec2(0.4, 0.4), 4, self)
+        self.collider = Collider("circle", self.pos, 0.15, 4, self)
 
     def update(self, timestep: float):
-        self.pos += self.dir * self.speed * timestep
         if len(self.game.physics.find_cols(self.collider, [1])) > 0:
             self.game.remove_object(self)
             del self
+            return
+        self.pos += self.dir * self.speed * timestep
 
     def render(self, sprites: list[Sprite]):
         sprites.append(Sprite(self.animator.get_image(), self.pos, self.dir.t + 3 * math.pi / 2, Vec2(0.5, 0.5), 5))

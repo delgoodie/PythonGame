@@ -63,7 +63,7 @@ class Physics:
             if Physics.col_col(col, other):
                 col.pos.set(origin)
 
-        origin = col.pos.copy()
+        origin2 = col.pos.copy()
 
         col.pos += disp * Vec2(0, 1)
 
@@ -71,4 +71,5 @@ class Physics:
             if other == col or not other.layer in layers:
                 continue
             if Physics.col_col(col, other):
-                col.pos.set(origin)
+                col.pos.set(origin2)
+        return (col.pos - origin).r

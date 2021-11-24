@@ -1,7 +1,9 @@
 import math
 import pygame
+from Game.Components.Animation import Animation
+from Game.Components.Animator import Animator
+from Game.Components.ButtonHandler import ButtonHandler
 from Game.Components.Collider import Collider
-from Game.Components.Cooldown import Cooldown
 from Game.Objects.Satchel import Satchel
 from Game.Physics import Physics
 from Util.Vec2 import Vec2
@@ -26,14 +28,29 @@ class Player:
         self.items = [FireCrystal(Vec2(0, 0), self.game), None, None, Satchel(self.game)]
         self.item_index = 0
 
-        self.boost_cooldown = Cooldown(3)
-        self.scroll_cooldown = Cooldown(0.2)
-        self.primary_cooldown = Cooldown(0.2)
-        self.secondary_cooldown = Cooldown(0.2)
+        self.boost_animator = Animator(
+            "rest",
+            [
+                Animation(
+                    "rest", [Animation.images_from_spritesheet(pygame.image.load(os.path.join("Assets", "boost.png")), 12)[11]], [10], "rest", True
+                ),
+                Animation(
+                    "cooldown",
+                    Animation.images_from_spritesheet(pygame.image.load(os.path.join("Assets", "boost.png")), 12),
+                    [2 * (1000 / 12)] * 12,
+                    "rest",
+                    False,
+                ),
+            ],
+        )
+
+        self.scroll_handler = ButtonHandler(150)
+        self.primary_handler = ButtonHandler(100)
+        self.secondary_handler = ButtonHandler(100)
+        self.boost_handler = ButtonHandler(2000)
 
         self.item_image = pygame.image.load(os.path.join("Assets", "item_slot.png"))
         self.active_item_image = pygame.image.load(os.path.join("Assets", "active_item_slot.png"))
-        self.wand_image = pygame.image.load(os.path.join("Assets", "wand.png"))
 
     # region getters
 
@@ -54,12 +71,8 @@ class Player:
         return self.items[0]
 
     @property
-    def wand_pos(self):
-        return self.pos + self.dir * 0.4 + self.dir.right() * 0.3
-
-    @property
     def crystal_pos(self):
-        return self.pos + self.dir * 0.6 + self.dir.right() * 0.1
+        return self.pos + self.dir * 0.475
 
     @property
     def shoot_pos(self):
@@ -91,21 +104,30 @@ class Player:
         return None
 
     def move(self, move: Vec2, dir: Vec2, scroll: int, primary: bool, secondary: bool, boost: bool):
-        if primary and self.primary_cooldown.ready():
+        self.scroll_handler.update(bool(scroll))
+        self.primary_handler.update(primary)
+        self.secondary_handler.update(secondary)
+        self.boost_handler.update(boost)
+
+        # Crystal Invoking
+        if not self.cur_crystal is None:
+            self.cur_crystal.invoke(self.item_index == 0 and primary, self, self.crystal_pos, self.dir.copy())
+
+        # Primary (non-crystal)
+        if self.primary_handler.value:
             if self.item_index == 0:
-                if not self.cur_crystal is None:
-                    self.cur_crystal.invoke(self, self.shoot_pos, self.dir)
-            elif self.item_index == 3:  # satchel pickup
+                pass
+            if self.item_index == 3:  # satchel pickup
                 if self.satchel.can_add_item():
                     item = self.try_pickup_item()
                     if not item is None:
                         self.satchel.add_item(item)
             else:
                 if self.cur_item is None:
-                    self.primary_down = True
                     self.cur_item = self.try_pickup_item()
 
-        if secondary and self.secondary_cooldown.ready():
+        # Secondary
+        if self.secondary_handler.value:
             if self.item_index == 0:
                 pass
             elif self.item_index == 3:
@@ -121,12 +143,16 @@ class Player:
                     self.game.add_object(self.cur_item)
                     self.cur_item = None
 
-        if scroll and self.scroll_cooldown.ready():
-            self.item_index = (self.item_index + scroll + 4) % 4
+        # Inventory Scrolling
+        if self.scroll_handler.value:
+            self.item_index = (self.item_index + scroll + len(self.items)) % len(self.items)
 
-        if boost and (self.boost_cooldown.ready() or self.boost_cooldown.within(0.075)):
+        # Boost
+        if self.boost_handler.value or self.boost_handler.cooldown_duration < 50:
+            self.boost_animator.try_change_state("cooldown")
             self.acc = self.input_vel.normalized() * 100 if self.input_vel.r > 0 else self.dir.normalized() * 70
 
+        # Movement
         self.input_vel = move * (self.input_vel.r + 0.2)
         if dir.r > 0:
             self.dir = dir
@@ -141,8 +167,11 @@ class Player:
         self.vel += self.acc * timestep
         self.acc = 0
 
-        self.game.physics.move(self.collider, (self.vel + self.input_vel) * timestep, [1])
+        dist = self.game.physics.move(self.collider, (self.vel + self.input_vel) * timestep, [1])
+        if dist == 0:
+            self.vel = Vec2(0, 0)
 
+        # TODO: make this a acceleration thing and do physics right
         self.vel -= self.vel * 0.1
 
         self.sprite.angle = self.dir.t
@@ -168,7 +197,6 @@ class Player:
             positions.pop(2)
 
         if self.item_index == 0:  # special case for wand + crystal render
-            sprites.append(Sprite(self.wand_image, self.wand_pos, self.dir.right().t + math.pi / 6, Vec2(0.5, 0.5), 2))
             if not self.cur_crystal is None:
                 self.cur_crystal.hand_render(self.crystal_pos, self.dir.t, sprites)
         else:  # otherwise front render
@@ -201,3 +229,6 @@ class Player:
 
             if not self.items[i] is None:
                 self.items[i].item_render(positions[i], window)
+
+        boost_image = pygame.transform.scale(self.boost_animator.get_image(), (length * 2, length * 2))
+        window.blit(boost_image, boost_image.get_rect(center=(length * 0.75, height - length * 1.25)))

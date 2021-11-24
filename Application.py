@@ -20,6 +20,7 @@ class Application:
 
         self.window = pygame.display.set_mode((self.width, self.height), pygame.RESIZABLE)
         pygame.display.set_caption("GAME")
+        pygame.font.init()
 
     def _read_settings(self):
         csvfile = open(self._settings_path, newline="")
@@ -49,7 +50,6 @@ class Application:
 
             self.event_handler()
 
-            # TODO: or pass in self and give game full access to Application?
             loop(self)
 
             pygame.display.flip()

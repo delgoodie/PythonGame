@@ -1,6 +1,29 @@
 import pygame
 
 
+INIT_KEY_DICT = {
+    "w": False,
+    "a": False,
+    "s": False,
+    "d": False,
+    "lshift": False,
+    "space": False,
+    "left": False,
+    "right": False,
+    "up": False,
+    "down": False,
+    "q": False,
+    "e": False,
+    "f": False,
+    "h": False,
+    "j": False,
+    "k": False,
+    "u": False,
+    "i": False,
+    "l": False,
+}
+
+
 class Input:
     # TODO: Write docs for Input class
     """
@@ -8,51 +31,9 @@ class Input:
     """
 
     def __init__(self):
-        self._pressed = {
-            "w": False,
-            "a": False,
-            "s": False,
-            "d": False,
-            "shift": False,
-            "space": False,
-            "left": False,
-            "right": False,
-            "up": False,
-            "down": False,
-            "q": False,
-            "e": False,
-            "f": False,
-        }
-        self.up = {
-            "w": False,
-            "a": False,
-            "s": False,
-            "d": False,
-            "shift": False,
-            "space": False,
-            "left": False,
-            "right": False,
-            "up": False,
-            "down": False,
-            "q": False,
-            "e": False,
-            "f": False,
-        }
-        self.down = {
-            "w": False,
-            "a": False,
-            "s": False,
-            "d": False,
-            "shift": False,
-            "space": False,
-            "left": False,
-            "right": False,
-            "up": False,
-            "down": False,
-            "q": False,
-            "e": False,
-            "f": False,
-        }
+        self._pressed = INIT_KEY_DICT.copy()
+        self.up = INIT_KEY_DICT.copy()
+        self.down = INIT_KEY_DICT.copy()
 
     def __getitem__(self, key: str):
         return self._pressed[key]
@@ -69,45 +50,54 @@ class Input:
         # ON KEYUP & ON KEYDOWN events
         for e in events:
             if e.type == pygame.KEYDOWN:
-                self.down[e.unicode] = True
+                if e.unicode.isalnum():
+                    self.down[e.unicode] = True
+                    self._pressed[e.unicode] = True
+                else:
+                    if e.key == pygame.K_SPACE:
+                        self.down["space"] = True
+                        self._pressed["space"] = True
+                    elif e.key == pygame.K_UP:
+                        self.down["up"] = True
+                        self._pressed["up"] = True
+                    elif e.key == pygame.K_DOWN:
+                        self.down["down"] = True
+                        self._pressed["down"] = True
+                    elif e.key == pygame.K_LEFT:
+                        self.down["left"] = True
+                        self._pressed["left"] = True
+                    elif e.key == pygame.K_RIGHT:
+                        self.down["right"] = True
+                        self._pressed["right"] = True
+                    elif e.key == pygame.K_LSHIFT:
+                        self.down["lshift"] = True
+                        self._pressed["lshift"] = True
+
             elif e.type == pygame.KEYUP:
-                self.up[e.unicode] = True
-
-        # KEY CURRENTLY PRESSED
-        keys_pressed = pygame.key.get_pressed()
-
-        # TODO: Add support for more keys pressed
-        if keys_pressed[pygame.K_w]:
-            self["w"] = True
-        if keys_pressed[pygame.K_a]:
-            self["a"] = True
-        if keys_pressed[pygame.K_s]:
-            self["s"] = True
-        if keys_pressed[pygame.K_d]:
-            self["d"] = True
-        if keys_pressed[pygame.K_LSHIFT]:
-            self["shift"] = True
-        if keys_pressed[pygame.K_SPACE]:
-            self["space"] = True
-        if keys_pressed[pygame.K_LEFT]:
-            self["left"] = True
-        if keys_pressed[pygame.K_RIGHT]:
-            self["right"] = True
-        if keys_pressed[pygame.K_UP]:
-            self["up"] = True
-        if keys_pressed[pygame.K_DOWN]:
-            self["down"] = True
-        if keys_pressed[pygame.K_q]:
-            self["q"] = True
-        if keys_pressed[pygame.K_e]:
-            self["e"] = True
-        if keys_pressed[pygame.K_f]:
-            self["f"] = True
+                if e.unicode.isalnum():
+                    self.down[e.unicode] = False
+                    self._pressed[e.unicode] = False
+                else:
+                    if e.key == pygame.K_SPACE:
+                        self.down["space"] = False
+                        self._pressed["space"] = False
+                    elif e.key == pygame.K_UP:
+                        self.down["up"] = False
+                        self._pressed["up"] = False
+                    elif e.key == pygame.K_DOWN:
+                        self.down["down"] = False
+                        self._pressed["down"] = False
+                    elif e.key == pygame.K_LEFT:
+                        self.down["left"] = False
+                        self._pressed["left"] = False
+                    elif e.key == pygame.K_RIGHT:
+                        self.down["right"] = False
+                        self._pressed["right"] = False
+                    elif e.key == pygame.K_LSHIFT:
+                        self.down["lshift"] = False
+                        self._pressed["lshift"] = False
 
     def clear(self):
-        for key in self._pressed:
-            self._pressed[key] = False
-
         for key in self.up:
             self.up[key] = False
 

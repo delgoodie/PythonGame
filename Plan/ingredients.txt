@@ -36,11 +36,13 @@ INGREDIENTS
 
 
 fire
-ice
-blood
-nature
+water
 void
+nature
 storm
+
+steal hearts
+
 
 
 

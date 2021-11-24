@@ -24,6 +24,8 @@ class Game:
         self.camera = Camera(Vec2(2, 0), 10)
         self.map = Map("path", self)
 
+        self.fps = 0
+
     def add_object(self, obj):
         self.objects.append(obj)
         if hasattr(obj, "collider"):
@@ -49,13 +51,13 @@ class Game:
             move.r = 1
 
         dir = Vec2(0, 0)
-        if input["left"]:
+        if input["j"]:
             dir.x -= 1
-        if input["right"]:
+        if input["l"]:
             dir.x += 1
-        if input["up"]:
+        if input["i"]:
             dir.y += 1
-        if input["down"]:
+        if input["k"]:
             dir.y -= 1
 
         if dir.r > 1:
@@ -65,7 +67,7 @@ class Game:
 
         secondary = input["f"]
         primary = input["space"]
-        boost = input["shift"]
+        boost = input["lshift"]
 
         self.player.move(move, dir, scroll, primary, secondary, boost)
 
@@ -74,6 +76,8 @@ class Game:
 
         for object in self.objects:
             object.update(timestep)
+
+        self.fps = 1 / timestep
 
     def render(self, window: pygame.Surface):
         sprites = []
@@ -87,13 +91,14 @@ class Game:
 
     def hud_render(self, window):
         self.player.hud_render(window)
+        fps_font = pygame.font.SysFont("Comic Sans MS", 30)
+        textsurface = fps_font.render(str(round(self.fps)), True, (0, 0, 0))
+        window.blit(textsurface, (20, 20))
 
     def loop(self, app: Application):
         self.handle_input(app.input)
 
         self.update(app.timestep)
-
-        # self.camera.pos.t += app.timestep
 
         self.render(app.window)
 
