@@ -67,8 +67,12 @@ class Player:
         return self.items[3]
 
     @property
-    def cur_crystal(self):
+    def crystal(self):
         return self.items[0]
+
+    @crystal.setter
+    def crystal(self, value):
+        self.items[0] = value
 
     @property
     def crystal_pos(self):
@@ -110,8 +114,8 @@ class Player:
         self.boost_handler.update(boost)
 
         # Crystal Invoking
-        if not self.cur_crystal is None:
-            self.cur_crystal.invoke(self.item_index == 0 and primary, self, self.crystal_pos, self.dir.copy())
+        if not self.crystal is None:
+            self.crystal.invoke(self.item_index == 0 and primary, self, self.crystal_pos, self.dir.copy())
 
         # Primary (non-crystal)
         if self.primary_handler.value:
@@ -128,20 +132,27 @@ class Player:
 
         # Secondary
         if self.secondary_handler.value:
+
+            # TODO: make crafting require you to hold [F] and if you just press F you drop crystal??
+            # Crafting
             if self.item_index == 0:
-                pass
+                cols = self.game.physics.find_cols(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
+                new_crystal = self.crystal.try_craft([c.parent for c in cols])
+                if not new_crystal is None:
+                    for c in cols:
+                        self.game.remove_object(c.parent)
+                    self.crystal = new_crystal(Vec2(0, 0), self.game)
+            # Drop item from satchel
             elif self.item_index == 3:
                 if self.cur_item.can_remove_item():
                     item = self.cur_item.remove_item()
                     item.pos.set(self.pos + self.dir * 0.5)
                     self.game.add_object(item)
-            else:
-                if self.cur_item is None:
-                    pass
-                else:
-                    self.cur_item.pos.set(self.pos + self.dir * 0.5)
-                    self.game.add_object(self.cur_item)
-                    self.cur_item = None
+            # Drop item from hand
+            elif not self.cur_item is None:
+                self.cur_item.pos.set(self.pos + self.dir * 0.5)
+                self.game.add_object(self.cur_item)
+                self.cur_item = None
 
         # Inventory Scrolling
         if self.scroll_handler.value:
@@ -197,8 +208,8 @@ class Player:
             positions.pop(2)
 
         if self.item_index == 0:  # special case for wand + crystal render
-            if not self.cur_crystal is None:
-                self.cur_crystal.hand_render(self.crystal_pos, self.dir.t, sprites)
+            if not self.crystal is None:
+                self.crystal.hand_render(self.crystal_pos, self.dir.t, sprites)
         else:  # otherwise front render
             if not self.cur_item is None:
                 self.cur_item.hand_render(self.front_pos, self.dir.t, sprites)

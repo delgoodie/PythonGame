@@ -3,6 +3,7 @@ import os
 import pygame
 from Game.Components.ButtonHandler import ButtonHandler
 from Game.Components.Collider import Collider
+from Game.Objects.Berry import Berry
 from Game.Objects.Fireball import Fireball
 from Util.Vec2 import Vec2
 from Game.Components.Sprite import Sprite
@@ -20,10 +21,19 @@ class FireCrystal:
 
         self.invoke_handler = ButtonHandler(300)
 
+        self.crafts = {(Berry,): FireCrystal}
+
     def invoke(self, value, player, pos: Vec2, dir: Vec2):
         self.invoke_handler.update(value)
         if self.invoke_handler.value:
             self.game.add_object(Fireball(pos, dir, player, self.game))
+
+    def try_craft(self, ingredients):
+        ing_types_set = set([type(ing) for ing in ingredients])
+        for key in self.crafts:
+            if set(key) == ing_types_set:
+                return self.crafts[key]
+        return None
 
     def update(self, timestep: float):
         pass
@@ -35,7 +45,7 @@ class FireCrystal:
 
     def hand_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
         self.hand_sprite.pos = pos
-        self.hand_sprite.angle = float(pygame.time.get_ticks()) / 1000
+        self.hand_sprite.angle = float(pygame.time.get_ticks())
         sprites.append(self.hand_sprite)
 
     def item_render(self, pos: Vec2, window: pygame.Surface):
