@@ -16,13 +16,13 @@ class Physics:
 
     def point_in_collider(collider: Collider, point: Vec2) -> bool:
         if collider.type == "circle":
-            return (point - collider.pos).r < collider.radius
+            return (point - collider.pos).sqrMag < collider.radius ** 2
         else:
             return point.x > collider.bl.x and point.x < collider.tr.x and point.y > collider.bl.y and point.y < collider.tr.y
 
     def circle_rect(circle: Collider, rect: Collider):
         closestPoint = Vec2(min(max(circle.pos.x, rect.left), rect.right), min(max(circle.pos.y, rect.bottom), rect.top))
-        return (circle.pos - closestPoint).r < circle.radius
+        return (circle.pos - closestPoint).sqrMag < circle.radius ** 2
 
     def rect_rect(rect1, rect2):
         return (
@@ -37,7 +37,7 @@ class Physics:
         )
 
     def circle_circle(circ1: Collider, circ2: Collider):
-        return (circ1.pos - circ2.pos).r < circ1.radius + circ2.radius
+        return (circ1.pos - circ2.pos).sqrMag < (circ1.radius + circ2.radius) ** 2
 
     def col_col(col_a: Collider, col_b: Collider) -> bool:
         if col_a.type == "rect":

@@ -9,6 +9,12 @@ class Vec2:
     def copy(self):
         return Vec2(self.x, self.y)
 
+    def dot(a, b):
+        return a.x * b.x + a.y * b.y
+
+    def cross(a, b):
+        return a.x * b.y - a.y * b.x
+
     # region getters & setters
 
     @property
@@ -37,6 +43,10 @@ class Vec2:
     @property
     def mag(self):
         return math.hypot(self.x, self.y)
+
+    @property
+    def sqrMag(self):
+        return self.x ** 2 + self.y ** 2
 
     def normalized(self):
         length = self.r

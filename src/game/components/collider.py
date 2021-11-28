@@ -1,4 +1,4 @@
-from game.components.sprite import Sprite
+from game.components.shapes import Sprite
 from util.vec2 import Vec2
 import pygame
 import os

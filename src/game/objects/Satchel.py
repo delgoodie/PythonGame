@@ -1,9 +1,8 @@
 import math
 import os
 import pygame
-from game.components.collider import Collider
 from util.vec2 import Vec2
-from game.components.sprite import Sprite
+from game.components.shapes import Sprite
 
 
 class Satchel:
@@ -32,7 +31,7 @@ class Satchel:
             self.item_index -= 1
             return item
 
-    def update(self, timestep: float):
+    def update(self, timestep: int):
         pass
 
     def hand_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):

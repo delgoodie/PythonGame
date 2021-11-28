@@ -1,14 +1,14 @@
 import math
 import pygame
-from Game.Components.Animation import Animation
-from Game.Components.Animator import Animator
-from Game.Components.ButtonHandler import ButtonHandler
+from game.components.animation import Animation, Animator
+from game.components.button_handler import ButtonHandler
 from game.components.collider import Collider
-from Game.Objects.Satchel import Satchel
-from Game.Physics import Physics
+from game.objects.particle import Particle
+from game.objects.satchel import Satchel
+from game.physics import Physics
 from util.vec2 import Vec2
-from game.components.sprite import Sprite
-from Game.Objects.FireCrystal import FireCrystal
+from game.components.shapes import Rects, Sprite
+from game.objects.crystals.fire_crystal import FireCrystal
 import os
 
 
@@ -19,6 +19,7 @@ class Player:
         self.acc = Vec2(0, 0)
         self.input_vel = Vec2(0, 0)
         self.dir = Vec2(1, 0)
+        self.disp = Vec2(0, 0)
 
         self.collider = Collider("circle", self.pos, 0.4, 2, self)
         self.game = game
@@ -28,7 +29,7 @@ class Player:
         self.items = [FireCrystal(Vec2(0, 0), self.game), None, None, Satchel(self.game)]
         self.item_index = 0
 
-        self.boost_animator = Animator(
+        self.boost_bar_animator = Animator(
             "rest",
             [
                 Animation(
@@ -44,6 +45,19 @@ class Player:
             ],
         )
 
+        self.boost_lines_animator = Animator(
+            None,
+            [
+                Animation(
+                    "boost",
+                    Animation.images_from_spritesheet(pygame.image.load(os.path.join("Assets", "boost_lines.png")), 5),
+                    [0.5 * (1000 / 5)] * 5,
+                    None,
+                    False,
+                ),
+            ],
+        )
+
         self.scroll_handler = ButtonHandler(150)
         self.primary_handler = ButtonHandler(100)
         self.secondary_handler = ButtonHandler(100)
@@ -51,6 +65,17 @@ class Player:
 
         self.item_image = pygame.image.load(os.path.join("Assets", "item_slot.png"))
         self.active_item_image = pygame.image.load(os.path.join("Assets", "active_item_slot.png"))
+
+        self.distance = 0
+
+        self.dist_int = 0
+        self.right_dust = False
+
+        self.boost_dir = Vec2(0, 0)
+
+        self.health = 11
+        self.heart_image = pygame.image.load(os.path.join("Assets", "heart.png"))
+        self.half_heart_image = pygame.image.load(os.path.join("Assets", "half_heart.png"))
 
     # region getters
 
@@ -158,34 +183,69 @@ class Player:
 
         # Boost
         if self.boost_handler.value or self.boost_handler.cooldown_duration < 50:
-            self.boost_animator.try_change_state("cooldown")
-            self.acc = self.input_vel.normalized() * 100 if self.input_vel.r > 0 else self.dir.normalized() * 70
+            self.boost_bar_animator.try_change_state("cooldown")
+            self.acc = self.input_vel.normalized() * 100 if self.input_vel.sqrMag > 0 else self.dir.normalized() * 70
+            self.boost_lines_animator.try_change_state("boost")
+            self.boost_dir = self.input_vel.normalized() if self.input_vel.sqrMag > 0 else self.dir.copy()
 
         # Movement
         self.input_vel = move * (self.input_vel.r + 0.2)
-        if dir.r > 0:
-            self.dir = dir
-        elif self.input_vel.r > 0:  # TODO: should this be removed??
-            self.dir = self.input_vel.normalized()
 
-    def update(self, timestep: float):
+        # Direction
+        if self.boost_lines_animator.state is None:
+            if dir.sqrMag > 0:
+                self.dir = dir
+            elif self.input_vel.sqrMag > 0:  # TODO: should this be removed??
+                self.dir = self.input_vel.normalized()
+        else:
+            self.dir = self.boost_dir
+
+    def update(self, timestep: int):
         # cap move velocity
-        if self.input_vel.r > 2:
+        if self.input_vel.sqrMag > 2 ** 2:
             self.input_vel.r = 2
 
-        self.vel += self.acc * timestep
+        self.vel += self.acc * (timestep / 1000)
         self.acc = 0
 
-        dist = self.game.physics.move(self.collider, (self.vel + self.input_vel) * timestep, [1])
+        dist = self.game.physics.move(self.collider, (self.vel + self.input_vel) * (timestep / 1000), [1])
         if dist == 0:
             self.vel = Vec2(0, 0)
+
+        self.distance += dist
+
+        self.disp = (self.vel + self.input_vel).normalized() * dist
 
         self.vel -= self.vel * 0.1
 
         self.sprite.angle = self.dir.t
 
-    def render(self, sprites: list[Sprite]):
-        sprites.append(self.sprite)
+        if int(self.distance * 1.4) > self.dist_int:
+            pos = (
+                self.pos
+                - self.input_vel.normalized() * 0.3
+                + (self.input_vel.right() if self.right_dust else self.input_vel.left()).normalized() * 0.15
+            )
+            self.game.add_object(
+                Particle(
+                    pos,
+                    self.game,
+                    120,
+                    -self.input_vel.normalized(),
+                    gain=math.pi * 2,
+                    lifetime=220,
+                    vel=0.03,
+                    size=0.1,
+                    rate=0.1,
+                    disp=0.02,
+                    acc=-0.5,
+                )
+            )
+            self.dist_int += 1
+            self.right_dust = not self.right_dust
+
+    def render(self, shapes: list[Sprite | Rects]):
+        shapes.append(self.sprite)
 
         items = self.items.copy()
         items.pop(self.item_index)
@@ -201,27 +261,34 @@ class Player:
 
         if self.item_index != 3:  # prioritize satchel on left hip
             items.pop(2)
-            self.satchel.hand_render(*positions[2], sprites)
+            self.satchel.hand_render(*positions[2], shapes)
             positions.pop(2)
 
         if self.item_index == 0:  # special case for wand + crystal render
             if not self.crystal is None:
-                self.crystal.hand_render(self.crystal_pos, self.dir.t, sprites)
+                self.crystal.hand_render(self.crystal_pos, self.dir.t, shapes)
         else:  # otherwise front render
             if not self.cur_item is None:
-                self.cur_item.hand_render(self.front_pos, self.dir.t, sprites)
+                self.cur_item.hand_render(self.front_pos, self.dir.t, shapes)
 
         for item in items:  # remaining non-current, non-satchel items
             if not item is None:
-                item.hand_render(*positions[0], sprites)
+                item.hand_render(*positions[0], shapes)
                 positions.pop(0)
 
         if self.game.debug > 2:
-            sprites.append(self.collider.sprite)
+            shapes.append(self.collider.sprite)
+
+        boost_lines_image = self.boost_lines_animator.get_image()
+        if boost_lines_image and self.disp.sqrMag > 0:
+            shapes.append(Sprite(boost_lines_image, self.pos - self.boost_dir * 0.6, self.boost_dir.t + 3 * math.pi / 2, Vec2(0.5, 0.9), layer=2))
+            # shapes.append(Sprite(boost_lines_image, self.pos + self.dir * 0.35, self.dir.t + 3 * math.pi / 2, Vec2(0.6, 0.4), layer=2))
 
     def hud_render(self, window: pygame.Surface):
         width, height = window.get_size()
         length = width / 13
+
+        # region Inventory
         positions = [
             Vec2(width - length * 0.75, height - length * 0.75),
             Vec2(width - length * 2, height - length * 0.75),
@@ -237,6 +304,15 @@ class Player:
 
             if not self.items[i] is None:
                 self.items[i].item_render(positions[i], window)
+        # endregion
 
-        boost_image = pygame.transform.scale(self.boost_animator.get_image(), (length * 2, length * 2))
+        # Boost Bar
+        boost_image = pygame.transform.scale(self.boost_bar_animator.get_image(), (length * 2, length * 2))
         window.blit(boost_image, boost_image.get_rect(center=(length * 0.75, height - length * 1.25)))
+
+        # Health
+        heart_image = pygame.transform.scale(self.heart_image, (length / 2, length / 2))
+        window.blits([(heart_image, (width - length / 2 * (x + 1), length / 4)) for x in range(self.health // 2)])
+        if self.health % 2:
+            half_heart_image = pygame.transform.scale(self.half_heart_image, (length / 2, length / 2))
+            window.blit(half_heart_image, (width - length / 2 * (self.health // 2 + 1), length / 4))

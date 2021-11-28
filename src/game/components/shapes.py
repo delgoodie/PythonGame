@@ -9,3 +9,9 @@ class Sprite:
         self.angle = angle
         self.size = size
         self.layer = layer
+
+
+class Rects:
+    def __init__(self, rects: list[tuple[tuple[int, int, int], Vec2, Vec2]], layer=1):
+        self.rects = rects
+        self.layer = layer

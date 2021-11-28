@@ -2,7 +2,7 @@ import pygame
 from game.components.collider import Collider
 from util.vec2 import Vec2
 import os
-from game.components.sprite import Sprite
+from game.components.shapes import Rects, Sprite
 
 
 class Map:
@@ -33,9 +33,9 @@ class Map:
             [1, 1, 1, 1, 1, 1],
         ]
 
-    def render(self, sprites: list[Sprite]):
+    def render(self, shapes: list[Sprite | Rects]):
         for y in range(len(self.map)):
             for x in range(len(self.map[y])):
-                sprites.append(Sprite(self.wall_tile if self.map[y][x] else self.floor_tile, Vec2(x, y), 0, Vec2(1.01, 1.01), 10))
+                shapes.append(Sprite(self.wall_tile if self.map[y][x] else self.floor_tile, Vec2(x, y), 0, Vec2(1.01, 1.01), 10))
                 # if self.collider_map[y][x]:
                 #     sprites.append(self.collider_map[y][x].sprite)

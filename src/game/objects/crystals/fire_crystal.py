@@ -1,12 +1,12 @@
 import math
 import os
 import pygame
-from Game.Components.ButtonHandler import ButtonHandler
+from game.components.button_handler import ButtonHandler
 from game.components.collider import Collider
-from Game.Objects.Berry import Berry
-from Game.Objects.Fireball import Fireball
+from game.objects.ingredients.berry import Berry
+from game.objects.orbs.fireball import Fireball
 from util.vec2 import Vec2
-from game.components.sprite import Sprite
+from game.components.shapes import Rects, Sprite
 
 
 class FireCrystal:
@@ -35,17 +35,17 @@ class FireCrystal:
                 return self.crafts[key]
         return None
 
-    def update(self, timestep: float):
+    def update(self, timestep: int):
         pass
 
-    def render(self, sprites: list[Sprite]):
-        sprites.append(self.sprite)
+    def render(self, shapes: list[Sprite | Rects]):
+        shapes.append(self.sprite)
         if self.game.debug > 2:
-            sprites.append(self.collider.sprite)
+            shapes.append(self.collider.sprite)
 
     def hand_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
         self.hand_sprite.pos = pos
-        self.hand_sprite.angle = float(pygame.time.get_ticks())
+        self.hand_sprite.angle = pygame.time.get_ticks() / 180
         sprites.append(self.hand_sprite)
 
     def item_render(self, pos: Vec2, window: pygame.Surface):

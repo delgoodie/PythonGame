@@ -1,6 +1,3 @@
-player health
-add sqrMag to vector class for optimization
-
 disable mouse pointer
 
 rename render functions to draw and get_sprite or smthng of that nature

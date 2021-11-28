@@ -50,8 +50,8 @@ class Input:
         for e in events:
             if e.type == pygame.KEYDOWN:
                 if e.unicode.isalnum():
-                    self.down[e.unicode] = True
-                    self._pressed[e.unicode] = True
+                    self.down[e.unicode.lower()] = True
+                    self._pressed[e.unicode.lower()] = True
                 else:
                     if e.key == pygame.K_SPACE:
                         self.down["space"] = True
@@ -74,8 +74,8 @@ class Input:
 
             elif e.type == pygame.KEYUP:
                 if e.unicode.isalnum():
-                    self.down[e.unicode] = False
-                    self._pressed[e.unicode] = False
+                    self.down[e.unicode.lower()] = False
+                    self._pressed[e.unicode.lower()] = False
                 else:
                     if e.key == pygame.K_SPACE:
                         self.down["space"] = False

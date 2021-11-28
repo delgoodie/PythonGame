@@ -3,7 +3,7 @@ import os
 import pygame
 from game.components.collider import Collider
 from util.vec2 import Vec2
-from game.components.sprite import Sprite
+from game.components.shapes import Rects, Sprite
 
 
 class Berry:
@@ -16,13 +16,13 @@ class Berry:
         self.game = game
         self.collider = Collider("rect", self.pos, Vec2(0.4, 0.4), 4, self)
 
-    def update(self, timestep: float):
+    def update(self, timestep: int):
         pass
 
-    def render(self, sprites: list[Sprite]):
-        sprites.append(self.sprite)
+    def render(self, shapes: list[Sprite | Rects]):
+        shapes.append(self.sprite)
         if self.game.debug > 2:
-            sprites.append(self.collider.sprite)
+            shapes.append(self.collider.sprite)
 
     def hand_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
         self.hand_sprite.pos = pos

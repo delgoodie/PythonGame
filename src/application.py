@@ -42,8 +42,8 @@ class Application:
         clock = pygame.time.Clock()
 
         while self.app_status:
-            self.timestep = float(clock.tick(self.fps)) / 1000
-            self.time = float(pygame.time.get_ticks()) / 1000
+            self.timestep = clock.tick(self.fps)
+            self.time = pygame.time.get_ticks()
 
             self.window.fill((255, 255, 255))
 

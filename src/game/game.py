@@ -1,8 +1,8 @@
 import pygame
 from application import Application
-from game.objects.berry import Berry
+from game.components.shapes import Rects, Sprite
+from game.objects.ingredients.berry import Berry
 from game.camera import Camera
-from game.components.collider import Collider
 from game.physics import Physics
 from game.objects.player import Player
 from util.vec2 import Vec2
@@ -47,7 +47,7 @@ class Game:
         if input["s"]:
             move.y -= 1
 
-        if move.r > 1:
+        if move.sqrMag > 1:
             move.r = 1
 
         dir = Vec2(0, 0)
@@ -60,7 +60,7 @@ class Game:
         if input["k"]:
             dir.y -= 1
 
-        if dir.r > 1:
+        if dir.sqrMag > 1:
             dir.r = 1
 
         scroll = int(input["q"]) - int(input["e"])
@@ -71,23 +71,24 @@ class Game:
 
         self.player.move(move, dir, scroll, primary, secondary, boost)
 
-    def update(self, timestep: float):
+    def update(self, timestep: int):
         self.camera.pos = self.player.pos.copy()
 
         for object in self.objects:
             object.update(timestep)
 
-        self.fps = 1 / timestep
+        self.fps = 1 / (timestep / 1000)
 
     def render(self, window: pygame.Surface):
-        sprites = []
+        shapes: list[Sprite | Rects] = []
 
-        self.map.render(sprites)
+        self.map.render(shapes)
 
         for object in self.objects:
-            object.render(sprites)
+            object.render(shapes)
 
-        self.camera.draw(window, sprites)
+        self.camera.draw(window, shapes)
+        self.camera.draw_shadows(window, self.physics.colliders)
 
     def hud_render(self, window):
         self.player.hud_render(window)

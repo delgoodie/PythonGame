@@ -1,6 +1,7 @@
 import math
 import pygame
-from game.components.sprite import Sprite
+from game.components.collider import Collider
+from game.components.shapes import Rects, Sprite
 from util.vec2 import Vec2
 
 
@@ -44,15 +45,41 @@ class Camera:
 
         return image, rect
 
-    def draw(self, window: pygame.Surface, sprites: list[Sprite]):
-        def sort_func(sprite: Sprite):
-            return sprite.layer
+    def draw(self, window: pygame.Surface, shapes: list[Sprite | Rects]):
+        def sort_func(shape: Sprite | Rects):
+            return shape.layer
 
-        sprites.sort(key=sort_func, reverse=True)
-        images = [self.transform_image(sprite) for sprite in sprites]
-        window.blits(images)
+        shapes.sort(key=sort_func, reverse=True)
+
+        images = []
+        for shape in shapes:
+            if type(shape) is Sprite:
+                window.blit(*self.transform_image(shape))
+            else:
+                for rect in shape.rects:
+                    pos = self.transform_point(rect[1])
+                    size_x = self.transform_length(rect[2].x)
+                    size_y = self.transform_length(rect[2].y)
+                    pygame.draw.rect(window, rect[0], (pos.x, pos.y, size_x, size_y))
 
         if self.debug:
             for image in images:
                 pygame.draw.circle(window, (255, 0, 0), image[1].center, 5)
                 pygame.draw.rect(window, (255, 0, 0), image[1], 2)
+
+    def draw_shadows(self, window: pygame.Surface, colliders: list[Collider]):
+        polys = []
+        for col in colliders:
+            if col.layer == 1:
+                pts = [col.tl, col.tr, col.br, col.bl]
+                for i in range(len(pts)):
+                    if Vec2.cross(self.pos - pts[i - 1], pts[i] - pts[i - 1]) > 0:
+                        corners = [
+                            pts[i],
+                            pts[i] + (pts[i] - self.pos) * 1,
+                            pts[i - 1] + (pts[i - 1] - self.pos) * 1,
+                            pts[i - 1],
+                        ]
+                        polys.append([self.transform_point(p).tup for p in corners])
+        for poly in polys:
+            pygame.draw.polygon(window, (0, 0, 0), poly)
