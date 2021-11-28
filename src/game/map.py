@@ -17,7 +17,7 @@ class Map:
             self.collider_map.append([])
             for x in range(len(self.map[y])):
                 if self.map[y][x]:
-                    self.collider_map[y].append(Collider("rect", Vec2(x, y), Vec2(1, 1), 1))
+                    self.collider_map[y].append(Collider(Vec2(x, y), Vec2(1, 1), 1))
                     self.game.physics.colliders.append(self.collider_map[y][x])
                 else:
                     self.collider_map[y].append(None)
@@ -37,5 +37,3 @@ class Map:
         for y in range(len(self.map)):
             for x in range(len(self.map[y])):
                 shapes.append(Sprite(self.wall_tile if self.map[y][x] else self.floor_tile, Vec2(x, y), 0, Vec2(1.01, 1.01), 10))
-                # if self.collider_map[y][x]:
-                #     sprites.append(self.collider_map[y][x].sprite)

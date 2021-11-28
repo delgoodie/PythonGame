@@ -28,7 +28,7 @@ class Fireball:
         )
         self.game = game
 
-        self.collider = Collider("circle", self.pos, 0.15, 4, self)
+        self.collider = Collider(self.pos, Vec2.one() * 0.3, 4, self)
 
     def update(self, timestep: int):
         if len(self.game.physics.find_cols(self.collider, [1])) > 0:
@@ -55,5 +55,3 @@ class Fireball:
 
     def render(self, shapes: list[Sprite | Rects]):
         shapes.append(Sprite(self.animator.get_image(), self.pos, self.dir.t + 3 * math.pi / 2, Vec2(0.5, 0.5), 5))
-        if self.game.debug > 2:
-            shapes.append(self.collider.sprite)

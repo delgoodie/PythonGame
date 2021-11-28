@@ -21,7 +21,7 @@ class Player:
         self.dir = Vec2(1, 0)
         self.disp = Vec2(0, 0)
 
-        self.collider = Collider("circle", self.pos, 0.4, 2, self)
+        self.collider = Collider(self.pos, Vec2(0.7, 0.7), 2, self)
         self.game = game
 
         self.sprite = Sprite(pygame.image.load(os.path.join("Assets", "player.png")), self.pos, 0, Vec2.one(), 2)
@@ -126,7 +126,7 @@ class Player:
     # endregion
 
     def try_pickup_item(self):
-        cols = self.game.physics.find_cols(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
+        cols = self.game.physics.find_cols(Collider(self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
         if len(cols) > 0:
             self.game.remove_object(cols[0].parent)
             return cols[0].parent
@@ -159,7 +159,7 @@ class Player:
         if self.secondary_handler.value:
             # Crafting
             if self.item_index == 0:
-                cols = self.game.physics.find_cols(Collider("rect", self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
+                cols = self.game.physics.find_cols(Collider(self.pos + self.dir * 0.5, Vec2(0.6, 0.6), 4), [4])
                 new_crystal = self.crystal.try_craft([c.parent for c in cols])
                 if not new_crystal is None:
                     for c in cols:
@@ -275,9 +275,6 @@ class Player:
             if not item is None:
                 item.hand_render(*positions[0], shapes)
                 positions.pop(0)
-
-        if self.game.debug > 2:
-            shapes.append(self.collider.sprite)
 
         boost_lines_image = self.boost_lines_animator.get_image()
         if boost_lines_image and self.disp.sqrMag > 0:

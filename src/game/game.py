@@ -87,8 +87,11 @@ class Game:
         for object in self.objects:
             object.render(shapes)
 
+        if self.debug > 0:
+            self.physics.render(shapes)
+
         self.camera.draw(window, shapes)
-        self.camera.draw_shadows(window, self.physics.colliders)
+        # self.camera.draw_shadows(window, self.physics.colliders)
 
     def hud_render(self, window):
         self.player.hud_render(window)

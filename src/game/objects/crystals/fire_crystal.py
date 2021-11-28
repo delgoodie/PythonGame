@@ -17,7 +17,7 @@ class FireCrystal:
         self.hand_sprite = Sprite(self.image, self.pos, 0, Vec2(0.4, 0.4), 2)
 
         self.game = game
-        self.collider = Collider("rect", self.pos, Vec2(0.4, 0.4), 4, self)
+        self.collider = Collider(self.pos, Vec2(0.4, 0.4), 4, self)
 
         self.invoke_handler = ButtonHandler(300)
 
@@ -40,8 +40,6 @@ class FireCrystal:
 
     def render(self, shapes: list[Sprite | Rects]):
         shapes.append(self.sprite)
-        if self.game.debug > 2:
-            shapes.append(self.collider.sprite)
 
     def hand_render(self, pos: Vec2, angle: float, sprites: list[Sprite]):
         self.hand_sprite.pos = pos
