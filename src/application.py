@@ -2,6 +2,8 @@ import pygame
 from util.input import Input
 import csv
 
+from util.profile import profile_console, profile_csv
+
 
 class Application:
     def __init__(self, settings_path):
@@ -38,6 +40,7 @@ class Application:
                 self.app_status = False
         self.input.read(events)
 
+    @profile_console
     def run(self, loop):
         clock = pygame.time.Clock()
 

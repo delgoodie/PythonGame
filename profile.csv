@@ -1,0 +1,220 @@
+ncalls,tottime,percall,cumtime,percall,filename,line,function
+1,0.001,0.001,0.190,0.190,application.py,,,43,,run
+1,0.000,0.000,0.121,0.121,game.py,,,102,,loop
+1,0.000,0.000,0.095,0.095,game.py,,,96,,hud_render
+1,0.000,0.000,0.092,0.092,sysfont.py,,,365,,SysFont
+1,0.000,0.000,0.091,0.091,sysfont.py,,,323,,initsysfonts
+1,0.010,0.010,0.091,0.091,sysfont.py,,,66,,initsysfonts_win32
+1,0.041,0.041,0.048,0.048,{built-in method pygame.base.quit}
+533,0.008,0.000,0.036,0.000,sysfont.py,,,124,,_parse_font_entry_win
+534,0.001,0.000,0.026,0.000,sysfont.py,,,53,,_simplename
+1075,0.015,0.000,0.025,0.000,{method 'join' of 'str' objects}
+1,0.016,0.016,0.016,0.016,{method 'tick' of 'Clock' objects}
+516,0.002,0.000,0.014,0.000,ntpath.py,,,221,,dirname
+1,0.000,0.000,0.013,0.013,game.py,,,74,,update
+1,0.000,0.000,0.013,0.013,player.py,,,203,,update
+1,0.000,0.000,0.013,0.013,physics.py,,,54,,move
+516,0.008,0.000,0.013,0.000,ntpath.py,,,180,,split
+54,0.002,0.000,0.012,0.000,physics.py,,,42,,rect_rect
+1,0.000,0.000,0.012,0.012,game.py,,,82,,render
+517,0.006,0.000,0.012,0.000,ntpath.py,,,77,,join
+539,0.011,0.000,0.011,0.000,{built-in method winreg.EnumValue}
+1,0.000,0.000,0.011,0.011,camera.py,,,48,,draw
+6467,0.008,0.000,0.010,0.000,sysfont.py:56(<genexpr>)
+1550,0.007,0.000,0.009,0.000,ntpath.py,,,124,,splitdrive
+2/1,0.000,0.000,0.007,0.007,<frozen importlib._bootstrap>,,,1022,,_find_and_load
+2/1,0.000,0.000,0.007,0.007,<frozen importlib._bootstrap>,,,987,,_find_and_load_unlocked
+539,0.003,0.000,0.007,0.000,ntpath.py,,,203,,splitext
+47,0.001,0.000,0.007,0.000,camera.py,,,33,,transform_image
+2/1,0.000,0.000,0.006,0.006,<frozen importlib._bootstrap>,,,664,,_load_unlocked
+1,0.000,0.000,0.006,0.006,<frozen importlib._bootstrap_external>,,,877,,exec_module
+56,0.005,0.000,0.005,0.000,{method 'blit' of 'pygame.Surface' objects}
+3/1,0.000,0.000,0.005,0.005,<frozen importlib._bootstrap>,,,233,,_call_with_frames_removed
+1,0.001,0.001,0.005,0.005,{built-in method builtins.exec}
+1,0.000,0.000,0.004,0.004,freetype.py:1(<module>)
+539,0.003,0.000,0.004,0.000,genericpath.py,,,121,,_splitext
+2,0.000,0.000,0.004,0.002,<frozen importlib._bootstrap>,,,564,,module_from_spec
+1,0.000,0.000,0.004,0.004,<frozen importlib._bootstrap_external>,,,1174,,create_module
+1,0.004,0.004,0.004,0.004,{built-in method _imp.create_dynamic}
+925,0.003,0.000,0.003,0.000,vec2.py,,,160,,__mul__
+1,0.000,0.000,0.002,0.002,player.py,,,284,,hud_render
+108,0.001,0.000,0.002,0.000,collider.py,,,28,,bl
+108,0.001,0.000,0.002,0.000,collider.py,,,24,,br
+108,0.001,0.000,0.002,0.000,collider.py,,,20,,tl
+108,0.001,0.000,0.002,0.000,collider.py,,,16,,tr
+432,0.002,0.000,0.002,0.000,collider.py,,,50,,point_inside
+47,0.001,0.000,0.002,0.000,camera.py,,,20,,transform_point
+1,0.000,0.000,0.002,0.002,application.py,,,36,,event_handler
+487,0.001,0.000,0.002,0.000,vec2.py,,,148,,__add__
+7005,0.002,0.000,0.002,0.000,{method 'lower' of 'str' objects}
+1,0.002,0.002,0.002,0.002,{built-in method pygame.event.get}
+47,0.002,0.000,0.002,0.000,{method 'copy' of 'pygame.Surface' objects}
+54,0.001,0.000,0.001,0.000,{built-in method pygame.transform.scale}
+1,0.000,0.000,0.001,0.001,<frozen importlib._bootstrap_external>,,,950,,get_code
+2,0.000,0.000,0.001,0.001,<frozen importlib._bootstrap>,,,921,,_find_spec
+5993,0.001,0.000,0.001,0.000,{method 'isalnum' of 'str' objects}
+533,0.001,0.000,0.001,0.000,sysfont.py,,,59,,_addfont
+2279,0.001,0.000,0.001,0.000,vec2.py,,,5,,__init__
+2,0.000,0.000,0.001,0.001,<frozen importlib._bootstrap_external>,,,1422,,find_spec
+2,0.000,0.000,0.001,0.001,<frozen importlib._bootstrap_external>,,,1390,,_get_spec
+2,0.000,0.000,0.001,0.001,<frozen importlib._bootstrap_external>,,,1527,,find_spec
+1,0.000,0.000,0.001,0.001,<frozen importlib._bootstrap_external>,,,1070,,get_data
+5,0.000,0.000,0.001,0.000,<frozen importlib._bootstrap_external>,,,140,,_path_stat
+5,0.001,0.000,0.001,0.000,{built-in method nt.stat}
+1,0.001,0.001,0.001,0.001,sysfont.py,,,342,,font_constructor
+1621,0.001,0.000,0.001,0.000,{method 'rfind' of 'str' objects}
+1,0.001,0.001,0.001,0.001,{built-in method io.open_code}
+1,0.001,0.001,0.001,0.001,{method 'fill' of 'pygame.Surface' objects}
+3126,0.001,0.000,0.001,0.000,{built-in method nt.fspath}
+3130,0.001,0.000,0.001,0.000,{built-in method builtins.isinstance}
+1568,0.001,0.000,0.001,0.000,{method 'rstrip' of 'str' objects}
+1,0.001,0.001,0.001,0.001,{built-in method pygame.display.flip}
+516,0.001,0.000,0.001,0.000,ntpath.py,,,34,,_get_bothseps
+47,0.001,0.000,0.001,0.000,{built-in method pygame.transform.rotate}
+1,0.000,0.000,0.001,0.001,player.py,,,247,,render
+1050,0.001,0.000,0.001,0.000,{method 'split' of 'str' objects}
+1552,0.001,0.000,0.001,0.000,{method 'replace' of 'str' objects}
+1,0.001,0.001,0.001,0.001,{method 'render' of 'pygame.font.Font' objects}
+1,0.001,0.001,0.001,0.001,{built-in method sys.getwindowsversion}
+1,0.000,0.000,0.000,0.000,game.py,,,39,,handle_input
+2094,0.000,0.000,0.000,0.000,{built-in method builtins.len}
+1,0.000,0.000,0.000,0.000,map.py,,,36,,render
+541,0.000,0.000,0.000,0.000,{built-in method builtins.max}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,159,,_path_isfile
+2,0.000,0.000,0.000,0.000,animation.py,,,48,,get_image
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,150,,_path_is_mode_type
+188,0.000,0.000,0.000,0.000,camera.py,,,16,,transform_length
+432,0.000,0.000,0.000,0.000,collider.py,,,44,,left
+560,0.000,0.000,0.000,0.000,{method 'endswith' of 'str' objects}
+1,0.000,0.000,0.000,0.000,{method 'blits' of 'pygame.Surface' objects}
+1,0.000,0.000,0.000,0.000,player.py,,,135,,move
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,492,,_init_module_attrs
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,380,,cache_from_source
+1,0.000,0.000,0.000,0.000,satchel.py,,,42,,item_render
+6,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,96,,_path_join
+1,0.000,0.000,0.000,0.000,{built-in method pygame.time.Clock}
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,1089,,path_stats
+3,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,391,,cached
+351,0.000,0.000,0.000,0.000,{method 'remove' of 'list' objects}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,510,,_get_cached
+47,0.000,0.000,0.000,0.000,vec2.py,,,166,,__truediv__
+49,0.000,0.000,0.000,0.000,vec2.py,,,154,,__sub__
+224,0.000,0.000,0.000,0.000,collider.py,,,40,,right
+1,0.000,0.000,0.000,0.000,{method 'sort' of 'list' objects}
+1,0.000,0.000,0.000,0.000,player.py,,,114,,right_hip_pos_1
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,169,,__enter__
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,132,,_path_split
+4,0.000,0.000,0.000,0.000,vec2.py,,,97,,right
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,1522,,_get_spec
+1,0.000,0.000,0.000,0.000,fire_crystal.py,,,49,,item_render
+101,0.000,0.000,0.000,0.000,{method 'get_rect' of 'pygame.Surface' objects}
+1,0.000,0.000,0.000,0.000,{built-in method winreg.OpenKey}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,721,,spec_from_file_location
+197,0.000,0.000,0.000,0.000,{built-in method math.hypot}
+2,0.000,0.000,0.000,0.000,player.py,,,102,,crystal_pos
+235,0.000,0.000,0.000,0.000,{built-in method pygame.display.get_window_size}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,179,,_get_module_lock
+1,0.000,0.000,0.000,0.000,input.py,,,46,,read
+51,0.000,0.000,0.000,0.000,animation.py,,,42,,state
+11,0.000,0.000,0.000,0.000,vec2.py,,,20,,t
+1,0.000,0.000,0.000,0.000,sysfont.py,,,291,,create_aliases
+1,0.000,0.000,0.000,0.000,player.py,,,122,,left_hip_pos
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,670,,_compile_bytecode
+1,0.000,0.000,0.000,0.000,{method 'read' of '_io.BufferedReader' objects}
+6,0.000,0.000,0.000,0.000,vec2.py,,,27,,t
+100,0.000,0.000,0.000,0.000,vec2.py,,,66,,tup
+1,0.000,0.000,0.000,0.000,_collections_abc.py,,,813,,get
+42,0.000,0.000,0.000,0.000,shapes.py,,,6,,__init__
+1,0.000,0.000,0.000,0.000,player.py,,,118,,right_hip_pos_2
+1,0.000,0.000,0.000,0.000,{built-in method marshal.loads}
+1,0.000,0.000,0.000,0.000,{method 'update' of 'dict' objects}
+1,0.000,0.000,0.000,0.000,os.py,,,674,,__getitem__
+1,0.000,0.000,0.000,0.000,vec2.py,,,51,,normalized
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,172,,_path_isabs
+2,0.000,0.000,0.000,0.000,vec2.py,,,102,,left
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,71,,__init__
+12,0.000,0.000,0.000,0.000,{built-in method builtins.getattr}
+24,0.000,0.000,0.000,0.000,{built-in method pygame.time.get_ticks}
+5,0.000,0.000,0.000,0.000,button_handler.py,,,19,,update
+6,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>:119(<listcomp>)
+1,0.000,0.000,0.000,0.000,{built-in method winreg.QueryInfoKey}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,100,,acquire
+9,0.000,0.000,0.000,0.000,vec2.py,,,33,,r
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,1182,,exec_module
+1,0.000,0.000,0.000,0.000,{method '__exit__' of '_io._IOBase' objects}
+1,0.000,0.000,0.000,0.000,os.py,,,746,,encodekey
+1,0.000,0.000,0.000,0.000,fire_crystal.py,,,44,,hand_render
+94,0.000,0.000,0.000,0.000,{built-in method math.floor}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,173,,__exit__
+1,0.000,0.000,0.000,0.000,input.py,,,99,,clear
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,585,,_classify_pyc
+4,0.000,0.000,0.000,0.000,{built-in method _thread.allocate_lock}
+16,0.000,0.000,0.000,0.000,collider.py,,,36,,bottom
+47,0.000,0.000,0.000,0.000,{built-in method math.degrees}
+6,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>:134(<genexpr>)
+47,0.000,0.000,0.000,0.000,camera.py,,,49,,sort_func
+10,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,244,,_verbose_message
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,125,,release
+4,0.000,0.000,0.000,0.000,vec2.py,,,9,,copy
+10,0.000,0.000,0.000,0.000,{method 'rpartition' of 'str' objects}
+55,0.000,0.000,0.000,0.000,{method 'append' of 'list' objects}
+16,0.000,0.000,0.000,0.000,{method 'startswith' of 'str' objects}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,404,,parent
+1,0.000,0.000,0.000,0.000,player.py:312(<listcomp>)
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,826,,find_spec
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,542,,_check_name_wrapper
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,618,,_validate_timestamp_pyc
+3,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,84,,_unpack_uint32
+1,0.000,0.000,0.000,0.000,animation.py,,,18,,get_image
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,357,,__init__
+6,0.000,0.000,0.000,0.000,{built-in method builtins.hasattr}
+1,0.000,0.000,0.000,0.000,os.py,,,740,,check_str
+1,0.000,0.000,0.000,0.000,fire_crystal.py,,,26,,invoke
+6,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,897,,__exit__
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,198,,cb
+11,0.000,0.000,0.000,0.000,{built-in method math.atan}
+5,0.000,0.000,0.000,0.000,vec2.py,,,47,,sqrMag
+6,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,893,,__enter__
+13,0.000,0.000,0.000,0.000,input.py,,,37,,__getitem__
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,67,,_relax_case
+1,0.000,0.000,0.000,0.000,{built-in method builtins.round}
+6,0.000,0.000,0.000,0.000,{built-in method math.cos}
+6,0.000,0.000,0.000,0.000,{built-in method math.sin}
+2,0.000,0.000,0.000,0.000,{built-in method nt._path_splitroot}
+8,0.000,0.000,0.000,0.000,collider.py,,,32,,top
+3,0.000,0.000,0.000,0.000,vec2.py,,,184,,__iadd__
+1,0.000,0.000,0.000,0.000,satchel.py,,,37,,hand_render
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,1347,,_path_importer_cache
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,48,,_new_module
+2,0.000,0.000,0.000,0.000,{built-in method _imp.is_frozen}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,165,,__init__
+7,0.000,0.000,0.000,0.000,{method 'get' of 'dict' objects}
+10,0.000,0.000,0.000,0.000,{built-in method _imp.acquire_lock}
+2,0.000,0.000,0.000,0.000,berry.py,,,22,,render
+1,0.000,0.000,0.000,0.000,vec2.py,,,79,,zero
+2,0.000,0.000,0.000,0.000,{built-in method builtins.setattr}
+10,0.000,0.000,0.000,0.000,{built-in method _imp.release_lock}
+1,0.000,0.000,0.000,0.000,{method 'disable' of '_lsprof.Profiler' objects}
+4,0.000,0.000,0.000,0.000,{built-in method _thread.get_ident}
+3,0.000,0.000,0.000,0.000,{method 'pop' of 'list' objects}
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,1040,,__init__
+4,0.000,0.000,0.000,0.000,player.py,,,94,,crystal
+1,0.000,0.000,0.000,0.000,{method 'copy' of 'list' objects}
+4,0.000,0.000,0.000,0.000,{method '__exit__' of '_thread.lock' objects}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,746,,find_spec
+3,0.000,0.000,0.000,0.000,{built-in method from_bytes}
+1,0.000,0.000,0.000,0.000,vec2.py,,,193,,__isub__
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,1163,,__init__
+2,0.000,0.000,0.000,0.000,{method 'pop' of 'dict' objects}
+1,0.000,0.000,0.000,0.000,{method 'upper' of 'str' objects}
+2,0.000,0.000,0.000,0.000,{method 'get_width' of 'pygame.Surface' objects}
+2,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap>,,,412,,has_location
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,874,,create_module
+1,0.000,0.000,0.000,0.000,{built-in method _imp.exec_dynamic}
+1,0.000,0.000,0.000,0.000,{built-in method _imp._fix_co_filename}
+1,0.000,0.000,0.000,0.000,<frozen importlib._bootstrap_external>,,,1065,,get_filename
+1,0.000,0.000,0.000,0.000,{method 'get_size' of 'pygame.Surface' objects}
+2,0.000,0.000,0.000,0.000,berry.py,,,19,,update
+1,0.000,0.000,0.000,0.000,player.py,,,90,,satchel
+
+
