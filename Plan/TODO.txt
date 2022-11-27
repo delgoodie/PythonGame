@@ -14,8 +14,7 @@ make player acceleration thing and do physics right
 
 write docs and comments for all functions and classes
 
-combine some classes into single functions (animator)
-
+combine some classes into single functions
 
 update and diagram out layers (for physics engine)
 

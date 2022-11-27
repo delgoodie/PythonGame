@@ -33,17 +33,3 @@ INGREDIENTS
         emerald
         lode stone
 
-
-
-fire
-water
-void
-nature
-storm
-
-steal hearts
-
-
-
-
-void has laser

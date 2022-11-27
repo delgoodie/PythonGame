@@ -10,8 +10,7 @@ CRYSTAL
             firewall - leaves fire trail, area denial
             mega - big and slow, area denial
             tracker - big slow ball tracks enemies
-            blood - takes 1 heart, shoot orb that deals 3 damage
-            vulernable - high damage but increases vulnerability for 3 sec after shot
+            blood - takes 1 heart, shoot orb that deals 3 damage - sniper
             electric shock - pathfinds enemies
         
         Enemy Effect
@@ -52,3 +51,18 @@ void
     ghost
     teleport
     blinding
+
+fire
+water
+void
+nature
+storm
+
+fireballs create light in shadows
+
+steal hearts
+
+
+
+
+void has laser
